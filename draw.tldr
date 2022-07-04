@@ -1,0 +1,299 @@
+{
+  "document": {
+    "id": "doc",
+    "name": "New Document",
+    "version": 15.3,
+    "pages": {
+      "page": {
+        "id": "page",
+        "name": "Page 1",
+        "childIndex": 1,
+        "shapes": {
+          "8ff9a1ce-47c4-45d8-26de-92d4980384a0": {
+            "id": "8ff9a1ce-47c4-45d8-26de-92d4980384a0",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 1,
+            "point": [
+              470.42,
+              336.93
+            ],
+            "rotation": 0,
+            "text": "gettoken for scanning tokens\n \n ",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "0a3c6930-8ff6-446b-0f14-d0d0ed6634bb": {
+            "id": "0a3c6930-8ff6-446b-0f14-d0d0ed6634bb",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 2,
+            "point": [
+              670.63,
+              -441.73
+            ],
+            "rotation": 0,
+            "text": "struct i need;\ncmd struct for the command\nexec struct which contains the arguments of the cmd\nredirection struct contains a pointer to cmd, filename, end of filename, mode, and file descriptor\npipe struct which has the type, the left command line, and the right one. ",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "73c1a111-4145-4be6-0183-622259b66a2e": {
+            "id": "73c1a111-4145-4be6-0183-622259b66a2e",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 3,
+            "point": [
+              746.25,
+              255.74
+            ],
+            "rotation": 0,
+            "text": "afterward we need to create functions that fill each struct with the data needed",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "39741cb0-1e58-4138-26fa-e0ef210dcecc": {
+            "id": "39741cb0-1e58-4138-26fa-e0ef210dcecc",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 4,
+            "point": [
+              357.24,
+              -260.95
+            ],
+            "rotation": 0,
+            "text": "we should open the stdin, out and error",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "b6e4c264-5671-46ab-1bc9-7f09170f2512": {
+            "id": "b6e4c264-5671-46ab-1bc9-7f09170f2512",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 5,
+            "point": [
+              335.83,
+              -163.02
+            ],
+            "rotation": 0,
+            "text": "first its either cd or something else\nin the 2nd case you parse then u run the command while the parent process is waiting",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "9dfab8e9-98ea-480f-03f5-7ed9c3aab234": {
+            "id": "9dfab8e9-98ea-480f-03f5-7ed9c3aab234",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 6,
+            "point": [
+              1205.6,
+              -525.11
+            ],
+            "rotation": 0,
+            "text": "note\ngetcmd might be substituted by readline ",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "0f8e91df-37ba-4ad4-160a-04919b6d2c83": {
+            "id": "0f8e91df-37ba-4ad4-160a-04919b6d2c83",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 7,
+            "point": [
+              478.12,
+              -301.7
+            ],
+            "rotation": 0,
+            "text": "MAIN",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "9741a8b5-e069-45c1-1e1e-6007331d7d90": {
+            "id": "9741a8b5-e069-45c1-1e1e-6007331d7d90",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 8,
+            "point": [
+              385.82,
+              -97.35
+            ],
+            "rotation": 0,
+            "text": "runcmd takes cmd struct\n if exec check if there is args then\nexecve\n \nif redirect we close fd then open file with the mode given\nand runcmd (recursive) which will run the program\n \nif pipe , we pipe then we fork twice, for the first one we close the stdout\nand replace it with p[1]. then we close 0 and 1.\nfor the second one we close his stdin and replace it with p[0].\nand finally we runcmd with left and right as paramaters.",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "965cb782-7641-44d1-2920-e7d6c219bb92": {
+            "id": "965cb782-7641-44d1-2920-e7d6c219bb92",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 9,
+            "point": [
+              360.5,
+              394.91
+            ],
+            "rotation": 0,
+            "text": "gettoken takes 4 arguments **ps, *es, **q, **eq\nps : pointer ti where the scan begins\nes : points to next caractere where the scan ends\ns : will navigate\nq:  points where the token found begins\neq: points where the token found ends\nreturns an int which means type of token found\n \nat the start we increment s until we found a char\nret will equal s value\nif s is on one of the symboles we increment, in case its \">\"\nwe check if its followed by \">\"\nthen we keep going until we find a whitespace or a symbole\neq = s\nand lastly we increment until we find a char\nps = s\nreturn",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "fb834e97-5eb9-4ffb-3633-264a7ca33d4b": {
+            "id": "fb834e97-5eb9-4ffb-3633-264a7ca33d4b",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 10,
+            "point": [
+              1055.98,
+              338.38
+            ],
+            "rotation": 0,
+            "text": "parsecmd takes 1 arg a *s\nes points to the null char of S\nparseline\npeek\nnulterminate\nreturn cmd;",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "0d952ba4-2c3c-4bf8-321d-d3e8b9af0e18": {
+            "id": "0d952ba4-2c3c-4bf8-321d-d3e8b9af0e18",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 11,
+            "point": [
+              939.7,
+              537.44
+            ],
+            "rotation": 0,
+            "text": "parsepipe takes **ps and *es\ncalls parseexec\npeek if there is a pipe\nthen gettoken whith q eq are NULL\nfinally we return cmd which is pipecmd(cmd, parsepipe);",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "c6a57eb2-5130-4593-0ab3-8da735bdd497": {
+            "id": "c6a57eb2-5130-4593-0ab3-8da735bdd497",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 12,
+            "point": [
+              421.16,
+              917.32
+            ],
+            "rotation": 0,
+            "text": "parseredir cmd, **ps, *es\npeek for \"<>\"\ngettoken should return \"a\", if not its an error\nthen if < redircmd with ps = O_RDONLY, 0\n> ps = O_WRONLY | O_CREATE | O_TRUNC, 1 \n>> pd = O_WRONLY | O_CREATE, 1",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          }
+        },
+        "bindings": {}
+      }
+    },
+    "pageStates": {
+      "page": {
+        "id": "page",
+        "selectedIds": [
+          "2dbae3b5-ba0e-461d-0570-19b823aad345"
+        ],
+        "camera": {
+          "point": [
+            0,
+            0
+          ],
+          "zoom": 1
+        },
+        "editingId": null
+      }
+    },
+    "assets": {}
+  },
+  "assets": {}
+}

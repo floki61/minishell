@@ -1,0 +1,57 @@
+{
+  "document": {
+    "id": "doc",
+    "name": "New Document",
+    "version": 15.3,
+    "pages": {
+      "page": {
+        "id": "page",
+        "name": "Page 1",
+        "childIndex": 1,
+        "shapes": {
+          "b4c5ca91-24e0-44ce-0667-77190f611255": {
+            "id": "b4c5ca91-24e0-44ce-0667-77190f611255",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 1,
+            "point": [
+              -351.71,
+              -479.3
+            ],
+            "rotation": 0,
+            "text": "ls -l | wc -l\n \nparsecmd -> parsepipe ->parsexec\nparseexec :\ncheck if there is a redirection, then checks if there's\na pipe if yes u return , else enter",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          }
+        },
+        "bindings": {}
+      }
+    },
+    "pageStates": {
+      "page": {
+        "id": "page",
+        "selectedIds": [
+          "b4c5ca91-24e0-44ce-0667-77190f611255"
+        ],
+        "camera": {
+          "point": [
+            0,
+            0
+          ],
+          "zoom": 1
+        },
+        "editingId": null
+      }
+    },
+    "assets": {}
+  },
+  "assets": {}
+}

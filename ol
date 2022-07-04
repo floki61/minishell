@@ -1,0 +1,16 @@
+Makefile
+README.md
+constructor.c
+draw.tldr
+draww.tldr
+ft_split.c
+ft_strjoin.c
+main.c
+minishell
+minishell.h
+minishell.o
+ol
+parse.c
+path.c
+scanning.tldr
+tools.c

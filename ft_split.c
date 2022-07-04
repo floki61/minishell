@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
+/*   Updated: 2022/07/01 15:57:34 by sfarhan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int	count(const char *str, char c,int *size)
+static int	count(const char *str, char c)
 {
 	int	i;
 	int	len;
@@ -20,11 +32,10 @@ static int	count(const char *str, char c,int *size)
 			len++;
 		}
 	}
-	*size = len;
 	return (len);
 }
 
-static int	ft_second(const char *str, int i, char c)
+static int	ft_test(const char *str, int i, char c)
 {
 	int		cnt;
 	char	*s;
@@ -39,52 +50,47 @@ static int	ft_second(const char *str, int i, char c)
 	return (cnt);
 }
 
-static char	**set_array(char const *s, char c, int i, char **tab)
+static char	*copy(int t, char const *s, char c)
 {
-	int	k;
-	int	j;
+	int		j;
+	int		len ;
+	char	*str;
 
-	k = 0;
 	j = 0;
-	while (s[i])
+	len = ft_test(s, t, c);
+	str = (char *)malloc(sizeof (char) * len + 1);
+	if (!str)
+		return (NULL);
+	while (j < len && s[t] != c)
 	{
-		k = 0;
-		if (s[i] == c)
-			i++;
-		else if (s[i] != c)
-		{
-			tab[j] = malloc(ft_second(s, i, c) + 1);
-			if (!tab[j])
-				return (NULL);
-			while (s[i] != c && s[i])
-			{
-				tab[j][k++] = s[i];
-				i++;
-			}
-			tab[j++][k] = '\0';
-		}
+		str[j] = (char)s[t];
+		j++;
+		t++;
 	}
-	tab[j] = NULL;
-	return (tab);
+	str[j] = '\0';
+	return (str);
 }
 
-char	**ft_split(char const *s, char c, int *size)
+char	**ft_split(char const *s, char c)
 {
 	int		i;
+	int		j;
 	char	**tab;
 
 	tab = NULL;
 	i = 0;
-	if (!s)
-		return (NULL);
-	if (c == '\0' || count(s, c, size) == 0)
-	{
-		tab = malloc(1 * sizeof(char *));
-		tab[0] = NULL;
-		return (tab);
-	}
-	tab = malloc(sizeof(char *) * (count(s, c, size) + 1));
+	j = 0;
+	tab = malloc(sizeof(char *) * (count(s, c) + 1));
 	if (!tab)
 		return (NULL);
-	return (set_array(s, c, i, tab));
+	while (j < count(s, c))
+	{
+		while (s[i] == c)
+			i++;
+		tab[j] = copy(i, s, c);
+		i += ft_test(s, i, c);
+		j++;
+	}
+	tab[j] = 0;
+	return (tab);
 }

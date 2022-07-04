@@ -5,6 +5,9 @@ SRCS =	main.c \
 		ft_split.c \
 		ft_strjoin.c \
 		path.c \
+		constructor.c \
+		tools.c \
+		parse.c \
 
 all : $(NAME)
 
