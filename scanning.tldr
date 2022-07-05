@@ -30,6 +30,28 @@
               "font": "script",
               "textAlign": "middle"
             }
+          },
+          "30b4bc81-d4e4-4dbc-21ec-dd4730d401ec": {
+            "id": "30b4bc81-d4e4-4dbc-21ec-dd4730d401ec",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 2,
+            "point": [
+              -644.7633333333334,
+              -939.4199999999998
+            ],
+            "rotation": 0,
+            "text": "cat path.c > test.txt | echo salam >> test.txt",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
           }
         },
         "bindings": {}

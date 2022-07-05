@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/04 00:59:44 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/05 23:42:43 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,26 @@ int	followed(char **s)
 	return (0);
 }
 
+char	*clean(char *str)
+{
+	int		i;
+	char	*clean;
+
+	i = 0;
+	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
+		i++;
+	clean = malloc (sizeof(char) * i);
+	i = 0;
+	while (str[i] != '\0' && !ft_strchr(str[i], " \t\n\f\v\r"))
+	{
+		clean[i] = str[i];
+		i++;
+	}
+	clean[i] = '\0';
+	return (clean);
+}
+
+
 t_cmd	*end_it(t_cmd *cmd)
 {
 	int	i;
@@ -90,9 +110,9 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 	path = envp[i];
 	cmd = ft_split(&path[5], ':');
 	exec = ft_split((char*)*exe->args, ' ');
-	// printf("s1==%s s2==%s\n",exec[0],exec[1]);
-	// if_builtins()
-	// printf ("%s %s\n", exec[0], exec[1]);
+	//printf ("%s %s\n", exec[0], exec[1]);
+	if(if_builtins(exec[0]) == 0)
+		exit(0);
 	if (access(exec[0], F_OK) != -1)
 		return (exec[0]);
 	while (cmd[++j])
@@ -102,7 +122,7 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 		if (access(cmd[j], F_OK) != -1)
 			return (cmd[j]);
 	}
-	printf ("minishell : command not found: %s\n", exec[0]);
+	printf ("minishell: %s: command not found\n", exec[0]);
 	return (0);
 }
 
@@ -131,14 +151,10 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 	char	**ar;
 	t_exec	*exe;
 	t_pipe	*pip;
-	// t_redir	*red;
+	t_redir	*red;
 
 	if (cmd == 0)
 		exit (1);
-	// printf("type == %d\n",cmd->type);
-	exe = (t_exec*)cmd;
-	// printf ("+%s, %s\n",exe->args[0], exe->args[1]);
-	// exit(0);
 	if (cmd->type == EXEC)
 	{
 		exe = (t_exec*)cmd;
@@ -146,7 +162,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 			exit (1);
 		buf = get_path(exe, envp);
 		ar = ft_split(exe->args[0], ' ');
-		// printf ("%s, %s, %s\n", buf, ar[0], ar[1]);
+		//printf ("%s, %s, %s, %s\n", buf, ar[0], ar[1], ar[2]);
 		//exe->eargs should be a double pointer containing the cmd and args.
 		execve(buf, ar, envp);
 	}
@@ -177,4 +193,18 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		close(p[1]);
 		wait(0);
 	}
+	else if (cmd->type == REDIR)
+	{
+		red = (t_redir*)cmd;
+		close(red->fd);
+		open(red->file, red->mode, 777);
+		run_cmd(red->exe, envp, c);
+	}
+}
+
+char	*ft_skip_spaces(char *inpt)
+{
+	while (inpt != '\0' && ft_strchr(*inpt, " \t\n\f\v\r"))
+			inpt++;
+	return(inpt);
 }

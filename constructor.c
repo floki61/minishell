@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/03 20:29:18 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/04 22:57:44 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cmd	*piping(t_cmd *left, t_cmd *right)
 	return ((t_cmd*)cmd);
 }
 
-t_cmd	*redirect(t_cmd	*exe, char *file, char *efile, int mode, int fd)
+t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd)
 {
 	t_redir	*cmd;
 	
@@ -31,7 +31,6 @@ t_cmd	*redirect(t_cmd	*exe, char *file, char *efile, int mode, int fd)
 	cmd->type = REDIR;
 	cmd->exe = exe;
 	cmd->file = file;
-	cmd->efile = efile;
 	cmd->mode = mode;
 	cmd->fd = fd;
 	return ((t_cmd*)cmd);
@@ -77,18 +76,13 @@ int	ft_skip(char *s, char *skip)
 	return (0);
 }
 
-int	exist(char **str, char *token)
+int	exist(char **ps, char *es, char *token)
 {
 	char	*s;
 
-	s = *str;
-	//printf ("%s exist\n", s);
-	while (s && ft_strchr(*s, " \t\n\v\f\r"))
+	s = *ps;
+	while (s < es && ft_strchr(*s, " \t\n\v\f\r"))
 		s++;
-	//if (stat == 1)
-	//{
-		*str = s;
+		*ps = s;
 	return *s && ft_strchr(*s, token);
-	// }
-	//return *s && ft_skip(s, token);
 }
