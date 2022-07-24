@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 23:46:29 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/24 00:04:00 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,6 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int 	if_builtins(char *buf);
 char	*ft_skip_spaces(char *inpt);
-int		if_dsigne(char *inpt,char **env);
+int		if_dsigne(char *inpt,char **envp);
 
 #endif

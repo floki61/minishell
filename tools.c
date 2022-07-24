@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 23:42:43 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/24 00:05:28 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,10 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		exe = (t_exec*)cmd;
 		if (exe->args[0] == 0)
 			exit (1);
+		if (if_builtins(exe->args[0]) == 0 || if_dsigne(exe->args[0],envp) == 0)
+		{
+			return ;
+		}
 		buf = get_path(exe, envp);
 		ar = ft_split(exe->args[0], ' ');
 		//printf ("%s, %s, %s, %s\n", buf, ar[0], ar[1], ar[2]);

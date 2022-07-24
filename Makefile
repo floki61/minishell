@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wall -Wextra -Werror -lreadline
+FLAGS = -Wall -Wextra -Werror -lreadline 
 
 SRCS =	main.c \
 		ft_split.c \

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/05 23:48:39 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/24 00:06:10 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strlen(char *str)
 	int i;
 
 	i = 0;
+	if(!str)
+		return (i);
 	while(str[i])
 		i++;
 	return (i);
@@ -57,33 +59,36 @@ char *ft_lastcar(char *str, char c)
 
 
 
-char	*ft_read(char **envp)
+char	*ft_read()
 {
 	char	*inpt;
 	
 	inpt = readline("-> minishell ");
 	inpt = ft_skip_spaces(inpt);
-	while(if_builtins(inpt) == 0 || if_dsigne(inpt,envp) == 0)
-	{
-		inpt = readline("-> minishell ");
-		inpt = ft_skip_spaces(inpt);
-	}
+// 	while(if_builtins(inpt) == 0 || if_dsigne(inpt,envp) == 0)
+// 	{
+// 		inpt = readline("-> minishell ");
+// 		inpt = ft_skip_spaces(inpt);
+// 	}
 	return (inpt);
 }
 
 int main(int ac, char **av, char **envp)
 {
 	char	*buf;
+	// char	*env;
 	int		c;
 
 	(void)ac;
 	(void)av;
+	// env = NULL;
 	while (1)
 	{
 		c = 0;
-		buf = ft_read(envp);
+		buf = ft_read();
 		if (fork() == 0)
 			run_cmd(parsecmd(buf), envp, &c);
+		// printf("[exmain]: %s\n",*envp);
 		wait(0);
 	}
 	return (0);
