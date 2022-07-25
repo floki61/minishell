@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 00:04:00 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/24 09:59:56 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+# define BLUE    "\e[0;34m"
+# define RED     "\e[0;31m"
+# define GREEN   "\e[0;32m"
+# define YELLOW  "\e[1;33m"
+# define RESET   "\e[0m"
 
 // #define	EXEC 1
 // #define	PIPE 2
@@ -44,6 +50,18 @@ typedef struct t_pipe
 	struct t_cmd	*right;
 }	t_pipe;
 
+typedef struct t_list
+{
+	char *name;
+	char *value;
+	struct t_list *next;
+}	t_list;
+
+// typedef struct s_list
+// {
+// 	void			*content;
+// 	struct s_list	*next;
+// }	s_list;
 
 //exec in case running a program
 //args for filename
@@ -66,6 +84,7 @@ typedef struct t_redir
 }	t_redir;
 
 
+
 int	    ft_strlen(char *str);
 char	*clean(char *str);
 t_cmd	*end_it(t_cmd *cmd);
@@ -85,10 +104,10 @@ int		get_token(char **ps, char *es, char **q, char **eq);
 t_cmd	*parsecmd(char *str);
 t_cmd	*parsepipe(char	**ps, char *es);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
-void	run_cmd(t_cmd *cmd, char **envp, int *c);
+void	run_cmd(t_cmd *cmd, char **envp, int *c, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
 int 	if_builtins(char *buf);
 char	*ft_skip_spaces(char *inpt);
-int		if_dsigne(char *inpt,char **envp);
+int		if_dsigne(char *inpt,char **envp,t_list **data);
 
 #endif

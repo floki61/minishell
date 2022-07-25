@@ -2,7 +2,7 @@
   "document": {
     "id": "doc",
     "name": "New Document",
-    "version": 15.3,
+    "version": 15.5,
     "pages": {
       "page": {
         "id": "page",
@@ -7315,6 +7315,34 @@
               ]
             ],
             "isComplete": true
+          },
+          "35646304-b849-490a-210c-bf3c6301a3be": {
+            "id": "35646304-b849-490a-210c-bf3c6301a3be",
+            "type": "rectangle",
+            "name": "Rectangle",
+            "parentId": "page",
+            "childIndex": 67,
+            "point": [
+              254.82,
+              147.23
+            ],
+            "size": [
+              240.25,
+              428.98
+            ],
+            "rotation": 0,
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1
+            },
+            "label": "",
+            "labelPoint": [
+              0.5,
+              0.5
+            ]
           }
         },
         "bindings": {}

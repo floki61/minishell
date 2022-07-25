@@ -1,54 +1,63 @@
 #include "stdio.h"
 #include "stdlib.h"
+#include "minishell.h"
 
-int	ft_strlen(char *str)
+typedef struct t_list
 {
-	int i;
+	char *name;
+	char *value;
+	struct t_list *next;
+} 	t_list;
 
-	i = 0;
-	if(!str)
-		return (i);
-	while(str[i])
-		i++;
-	return (i);
+t_list	*ft_lstlast(t_list *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst -> next)
+		lst = lst -> next;
+	return (lst);
 }
 
-char	*ft_strjoin(char	*s1, char	*s2)
+void	ft_lstadd_back(t_list **alst, t_list *new)
 {
-	char	*ret;
-	int		i;
-	int		str1;
-	int		str2;
-	int		strr1;
+	new->next = NULL;
+	if (!*alst)
+		*alst = new;
+	else
+		(ft_lstlast(*alst))->next = new;
+}
 
-	i = -1;
-	str1 = ft_strlen(s1);
-	str2 = ft_strlen(s2);
-	ret = (char *) malloc(sizeof(char) * (str1 + str2 + 1));
-	if (!ret)
-	{
-		free (ret);
+t_list	*ft_lstnew(void *name,void *value)
+{
+	t_list	*new;
+
+	new = (t_list *) malloc(sizeof(t_list));
+	if (!new)
 		return (NULL);
-	}
-	if (s1)
-		while (s1[++i])
-			ret[i] = s1[i];
-	strr1 = str1;
-	i = 0;
-	while (s2[i])
-		ret[str1++] = s2[i++];
-	ret[strr1 + str2] = '\0';
-	// free(s1);
-	return (ret);
+	new->name = name;
+	new->value = value;
+	new->next = NULL;
+	return (new);
 }
 
 int main(int argc,char **argv, char **env)
 {
-    *env = ft_strjoin(*env, "\nadd_this");
-    int i = 0;
-    while(env[i])
-    {
-        printf("env: %s\n",env[i]);
-        i++;
-    }
+	int i = 0;
+  	char **op;
+	char **op2;
+	t_list *data;
+
+	data = NULL;
+  	while(env[i])
+   	{
+		op = ft_split(env[i], '=');
+		ft_lstadd_back(&data,ft_lstnew(op[0],op[1]));
+		i++;
+   	}
+	while(data)
+	{
+		printf("%s=%s\n",data->name,data->);
+		data = data->next;
+	}
+
 }

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 00:06:10 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/24 11:51:36 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_read()
 {
 	char	*inpt;
 	
-	inpt = readline("-> minishell ");
+	inpt = readline("\e[0;31m.ᴍɪɴɪꜱʜᴇʟʟ\e[0m ");
 	inpt = ft_skip_spaces(inpt);
 // 	while(if_builtins(inpt) == 0 || if_dsigne(inpt,envp) == 0)
 // 	{
@@ -76,20 +76,21 @@ char	*ft_read()
 int main(int ac, char **av, char **envp)
 {
 	char	*buf;
-	// char	*env;
+	t_list *data;
 	int		c;
-
+	
 	(void)ac;
 	(void)av;
-	// env = NULL;
+	data = NULL;
+	int i = 0;
 	while (1)
 	{
 		c = 0;
 		buf = ft_read();
 		if (fork() == 0)
-			run_cmd(parsecmd(buf), envp, &c);
-		// printf("[exmain]: %s\n",*envp);
+			run_cmd(parsecmd(buf), envp, &c, &data);
 		wait(0);
+		i++;
 	}
 	return (0);
 }

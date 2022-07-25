@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 00:05:28 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/24 10:52:09 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ char	*get_path(t_exec *exe, char **envp)
 	return (0);
 }
 
-void	run_cmd(t_cmd *cmd, char **envp, int *c)
+void	run_cmd(t_cmd *cmd, char **envp, int *c, t_list **data)
 {
 	int 	p[2];
 	char	*buf;
@@ -160,10 +160,8 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		exe = (t_exec*)cmd;
 		if (exe->args[0] == 0)
 			exit (1);
-		if (if_builtins(exe->args[0]) == 0 || if_dsigne(exe->args[0],envp) == 0)
-		{
+		if (if_builtins(exe->args[0]) == 0 || if_dsigne(exe->args[0],envp,data) == 0)
 			return ;
-		}
 		buf = get_path(exe, envp);
 		ar = ft_split(exe->args[0], ' ');
 		//printf ("%s, %s, %s, %s\n", buf, ar[0], ar[1], ar[2]);
@@ -183,7 +181,9 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		{
 			close(p[0]);
 			dup2(p[1], STDOUT_FILENO);
-			run_cmd(pip->left, envp, c);
+					if (!(*data))
+			printf("1>>>>>>>>\n");
+			run_cmd(pip->left, envp, c,data);
 		}
 		else
 		{
@@ -191,7 +191,9 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 				*c = -1;
 			close(p[1]);
 			dup2(p[0], STDIN_FILENO);
-			run_cmd(pip->right, envp, c);
+					if (!(*data))
+			printf("2>>>>>>>>\n");
+			run_cmd(pip->right, envp, c,data);
 		}
 		close(p[0]);
 		close(p[1]);
@@ -202,7 +204,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c)
 		red = (t_redir*)cmd;
 		close(red->fd);
 		open(red->file, red->mode, 777);
-		run_cmd(red->exe, envp, c);
+		run_cmd(red->exe, envp, c,data);
 	}
 }
 
