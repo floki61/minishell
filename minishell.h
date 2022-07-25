@@ -6,18 +6,19 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 09:59:56 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/25 22:42:52 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -27,16 +28,19 @@
 # define YELLOW  "\e[1;33m"
 # define RESET   "\e[0m"
 
-// #define	EXEC 1
-// #define	PIPE 2
-// #define	REDIR 3
-
 enum e_define
 {
 	EXEC,
 	PIPE,
 	REDIR,
 } ;
+
+typedef struct t_list
+{
+	char *name;
+	char *value;
+	struct t_list *next;
+}	t_list;
 
 typedef struct t_cmd
 {
@@ -50,30 +54,15 @@ typedef struct t_pipe
 	struct t_cmd	*right;
 }	t_pipe;
 
-typedef struct t_list
-{
-	char *name;
-	char *value;
-	struct t_list *next;
-}	t_list;
-
-// typedef struct s_list
-// {
-// 	void			*content;
-// 	struct s_list	*next;
-// }	s_list;
-
 //exec in case running a program
 //args for filename
 //and eargs for argv
 typedef struct t_exec
 {
 	int		type;
-	char	*args[10];
-	char	*erags[10];
+	char	**args;
 }	t_exec;
 
-//fd is gonna be either 0 or 1
 typedef struct t_redir
 {
 	int				type;
@@ -81,33 +70,46 @@ typedef struct t_redir
 	char			*file;
 	int				mode;
 	int				fd;
+	int				token;
 }	t_redir;
 
+typedef struct t_quote
+{
+	int	quote;
+	int	start;
+}	t_quote;
 
-
-int	    ft_strlen(char *str);
+int		ft_strlen(char *str);
 char	*clean(char *str);
+int		ft_limites(char *str);
 t_cmd	*end_it(t_cmd *cmd);
 char	*ft_strjoin(char *s1, char *s2);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char c, int access);
+char	**ft_advanced(char const *s, char *buf);
 char	*get_path(t_exec *exe, char **envp);
 int		lets_check(char *str);
 char	*ft_path(char *line);
 int		followed(char **s);
 t_cmd	*piping(t_cmd *left, t_cmd *right);
-t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd);
-t_cmd	*exelior();
+t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token);
+t_cmd	*exelior(char *s);
 int		ft_strchr(char s, char *scan);
 int		ft_skip(char *s, char *skip);
 int		exist(char **ps, char *es, char *token);
 int		get_token(char **ps, char *es, char **q, char **eq);
-t_cmd	*parsecmd(char *str);
-t_cmd	*parsepipe(char	**ps, char *es);
+t_cmd	*parsecmd(char *str, char **env);
+t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
-void	run_cmd(t_cmd *cmd, char **envp, int *c, t_list **data);
+void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter,t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
-int 	if_builtins(char *buf);
+int		if_builtins(char **buf,char **envp, t_list **data);
 char	*ft_skip_spaces(char *inpt);
-int		if_dsigne(char *inpt,char **envp,t_list **data);
+char	*if_dsigne(char *inpt, char **env);
+char	*quotes(char *str, t_quote *quote);
+void	handle_c(int sig);
+char	*get_next_line(int fd);
+char	**if_echo(char *str);
+int		wd_count(const char *str, char c, int access);
+int		much_to_skip(const char *str, int i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 11:51:36 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/25 19:37:58 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,83 +14,98 @@
 
 int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!str)
-		return (i);
-	while(str[i])
+	while (str[i])
 		i++;
 	return (i);
 }
 
 // return pointer to the name directory
-char *ft_lastcar(char *str, char c)
+char	*ft_lastcar(char *str, char c)
 {
-	int lent;
+	int	lent;
 
 	lent = ft_strlen(str);
-	while(*str)
+	while (*str)
 		str++;
-	while(lent)
+	while (lent)
 	{
-		if(*str == c)
+		if (*str == c)
 		{
 			str++;
-			return(str);
+			return (str);
 		}
 		lent--;
 		str--;
 	}
-	return(NULL);
+	return (NULL);
 }
 
-//printf the name directory
-// char *    printdir()
-// {
-// 	char *cwd;
-// 	char *dir;
+void	handle_c(int sig)
+{
+	if (sig == 2)
+	{
+		printf ("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
 
-// 	cwd = malloc(sizeof(char) * 1000);
-// 	getcwd(cwd, sizeof(char) * 1000);
-// 	dir = ft_lastcar(cwd, '/');
-// 	return (dir);
-// }
+void	handle_d(int sig)
+{
+	if (sig == 11)
+	{
+		rl_replace_line("", 0);
+		printf ("exit\n");
+		rl_redisplay();
+		exit(0);
+	}
+}
 
+void	handle_s(int sig)
+{
+	if (sig == 3)
+	{
+		printf ("-> minishell ");
+		rl_replace_line("", 0);
+		//rl_redisplay();
+	}
+}
 
-
-char	*ft_read()
+char	*ft_read(void)
 {
 	char	*inpt;
-	
+
 	inpt = readline("\e[0;31m.ᴍɪɴɪꜱʜᴇʟʟ\e[0m ");
 	inpt = ft_skip_spaces(inpt);
-// 	while(if_builtins(inpt) == 0 || if_dsigne(inpt,envp) == 0)
-// 	{
-// 		inpt = readline("-> minishell ");
-// 		inpt = ft_skip_spaces(inpt);
-// 	}
 	return (inpt);
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	char	*buf;
-	t_list *data;
 	int		c;
-	
-	(void)ac;
-	(void)av;
+	t_list 	*data;
+	char	*limiter;
+
+	limiter = NULL;
+	(void) ac;
+	(void) av;
 	data = NULL;
-	int i = 0;
+	signal (SIGINT, handle_c);
+	//signal (SIGSEGV, handle_d);
+	signal (SIGQUIT, handle_s);
 	while (1)
 	{
 		c = 0;
 		buf = ft_read();
+		add_history(buf);
 		if (fork() == 0)
-			run_cmd(parsecmd(buf), envp, &c, &data);
+			run_cmd(parsecmd(buf, envp), envp, &c, &limiter, &data);
 		wait(0);
-		i++;
 	}
 	return (0);
 }

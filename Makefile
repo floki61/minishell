@@ -1,5 +1,5 @@
 NAME = minishell
-FLAGS = -Wall -Wextra -Werror -lreadline 
+FLAGS = -Wall -Wextra -Werror -lreadline -L/Users/oel-berh/.brew/opt/readline/lib -I/Users/oel-berh/.brew/opt/readline/include
 
 SRCS =	main.c \
 		ft_split.c \
@@ -7,9 +7,12 @@ SRCS =	main.c \
 		path.c \
 		constructor.c \
 		tools.c \
+		execute.c \
 		parse.c \
 		builtins.c \
 		ft_dsigne.c \
+		advanced.c \
+		get_next_line.c \
 
 all : $(NAME)
 

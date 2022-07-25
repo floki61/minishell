@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/04 22:57:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/25 04:26:50 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,41 @@ t_cmd	*piping(t_cmd *left, t_cmd *right)
 	cmd->type = PIPE;
 	cmd->left = left;
 	cmd->right = right;
-	return ((t_cmd*)cmd);
+	return ((t_cmd *)cmd);
 }
 
-t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd)
+t_cmd	*redirect(t_cmd	*exe, char *file, int mode, int fd, int token)
 {
 	t_redir	*cmd;
-	
+
 	cmd = malloc(sizeof(t_redir) + 1);
 	cmd->type = REDIR;
 	cmd->exe = exe;
 	cmd->file = file;
 	cmd->mode = mode;
 	cmd->fd = fd;
-	return ((t_cmd*)cmd);
+	cmd->token = token;
+	return ((t_cmd *)cmd);
 }
 
-t_cmd	*exelior()
+t_cmd	*exelior(char *s)
 {
 	t_exec	*cmd;
+	int		i;
+	int		words;
+
+	i = 0;
+	words = wd_count(s, ' ', 1);
 	cmd = malloc (sizeof(t_exec) + 1);
+	cmd->args = malloc (sizeof(char *) * (words + 1));
 	cmd->type = EXEC;
-	return ((t_cmd*)cmd);
+	while (i < words)
+	{
+		cmd->args[i] = 0;
+		i++;
+	}
+	cmd->args[i] = 0;
+	return ((t_cmd *)cmd);
 }
 
 int	ft_strchr(char s, char *scan)
@@ -84,5 +97,5 @@ int	exist(char **ps, char *es, char *token)
 	while (s < es && ft_strchr(*s, " \t\n\v\f\r"))
 		s++;
 		*ps = s;
-	return *s && ft_strchr(*s, token);
+	return (*s && ft_strchr(*s, token));
 }
