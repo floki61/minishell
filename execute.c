@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/25 20:03:50 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/28 00:09:08 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 {
 	int		fd;
 	int		i;
+	int		e;
 	int		p[2];
 	char	*buf;
 	char	*ar;
@@ -232,31 +233,20 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 		exe = (t_exec *)cmd;
 		if (exe->args[0] == 0)
 			exit (1);
-		if (if_builtins(exe->args,envp, data) == 0)
-			return ;
+		if((e = if_builtins(exe->args,envp, data)))
+		{
+			printf("e == %d\n",e);
+			if(e == 2)
+				*c = 89;
+			exit(0) ;
+		}
 		buf = get_path(exe, envp);
 		if (*limiter != NULL)
 		{
-			fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
-			while ((ar = get_next_line(0)))
-			{
-				if (ft_strncmp(*limiter, ar, ft_strlen(*limiter)) == 0)
-				{
-					close(0);
-					while (exe->args[i])
-					{
-						i++;
-						if (exe->args[i] == 0)
-						{
-							exe->args[i] = " ";
-							i++;
-						}
-					}
-					break ;
-				}
-				ft_putstr_fd(ar, fd);
-			}
-			i = 0;
+			fd = open("dada", O_RDWR | O_CREAT | O_TRUNC, 0644);
+			read_from_0(*limiter, fd);
+			dup2(fd, STDIN_FILENO);
+			dup2(p[1],STDOUT_FILENO);
 		}
 		execve(buf, exe->args, envp);
 	}
@@ -299,20 +289,20 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			fd = open(0, red->mode);
 			limiter = &(red->file);
 			exe = (t_exec *)red->exe;
-			//(*c)++;
+			(*c)++;
 			if (exe->args[0] == 0)
 			{
-				fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
-				while ((ar = get_next_line(0)))
-				{
-					if (ft_strncmp(red->file, ar, ft_strlen(red->file)) == 0)
-					{
-						close(0);
-						exit(1) ;
-					}
-					ft_putstr_fd(ar, fd);
-				}
-				i = 0;
+				// fd = open(" ", O_RDWR | O_CREAT | O_TRUNC, 0644);
+				// while ((ar = get_next_line(0)))
+				// {
+				// 	if (ft_strncmp(red->file, ar, ft_strlen(red->file)) == 0)
+				// 	{
+				// 		close(0);
+				// 		exit(1) ;
+				// 	}
+				// 	ft_putstr_fd(ar, fd);
+				// }
+				// i = 0;
 			}
 		}
 		else

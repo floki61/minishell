@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/25 19:37:58 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/27 10:11:08 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
+	if(!str)
+		return(i);
 	while (str[i])
 		i++;
 	return (i);
@@ -59,7 +61,7 @@ void	handle_d(int sig)
 	if (sig == 11)
 	{
 		rl_replace_line("", 0);
-		printf ("exit\n");
+		// printf ("exit\n");
 		rl_redisplay();
 		exit(0);
 	}
@@ -104,8 +106,38 @@ int	main(int ac, char **av, char **envp)
 		buf = ft_read();
 		add_history(buf);
 		if (fork() == 0)
-			run_cmd(parsecmd(buf, envp), envp, &c, &limiter, &data);
+			(run_cmd(parsecmd(buf, envp), envp, &c, &limiter, &data));
 		wait(0);
+		printf("c == %d\n",c);
+		if(c == 89)
+		{
+			printf("her\n");
+			exit (0);
+		}
+		printf("hna\n");
+		unlink("/tmp/.fd");
 	}
 	return (0);
 }
+
+// export omar=90=op ✓
+//export !omar=90
+// export omar+=78
+//export all=""		✓
+//export omar=   >>> env: omar=    export: omar="" ✓
+//unset PATH => ls output:""
+
+//exit
+
+
+// !dm=90 		!dm=90: event not found ✓
+// d!m=67       !m=67: event not found ✓
+// dm!=90		export: `dm!=90': not a valid identifier ✓
+
+
+// dm=45!		✓
+// dm=!45       dm=!45: event not found ✓
+// dm=4!5       dm=!45: event not found ✓
+
+// bash-3.2$ export tio=!23!me!45
+// bash: !me!45: event not found    

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/24 03:20:17 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/26 23:03:46 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,23 @@ int	much_to_skip(const char *str, int i)
 	}
 	i++;
 	return (i);
+}
+
+void	read_from_0(char *limitter, int fd)
+{
+	char	*instruction;
+
+	instruction = NULL;
+	while ((instruction = readline("pipe herdoc> ")))
+	{
+		if (strcmp(limitter, instruction) == 0)
+		{
+			close(0);
+			close(fd);
+			return ;
+		}
+		ft_putstr_fd(instruction, fd);
+		ft_putstr_fd("\n", fd);
+		free(instruction);
+	}
 }

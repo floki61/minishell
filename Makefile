@@ -10,6 +10,10 @@ SRCS =	main.c \
 		execute.c \
 		parse.c \
 		builtins.c \
+		echo.c 		\
+		env.c 		\
+		export.c 	\
+		unset.c 	\
 		ft_dsigne.c \
 		advanced.c \
 		get_next_line.c \
