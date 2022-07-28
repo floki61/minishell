@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/28 00:09:08 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/28 01:40:21 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,10 +235,9 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			exit (1);
 		if((e = if_builtins(exe->args,envp, data)))
 		{
-			printf("e == %d\n",e);
-			if(e == 2)
-				*c = 89;
-			exit(0) ;
+			// if(e == 2)
+			// 	*c = 89;
+			return ;
 		}
 		buf = get_path(exe, envp);
 		if (*limiter != NULL)
@@ -265,6 +264,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			close(p[0]);
 			close(p[1]);
 			run_cmd(pip->left, envp, c, limiter,data);
+			exit(0);
 		}
 		else
 		{
@@ -275,6 +275,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			close(p[0]);
 			close(p[1]);
 			run_cmd(pip->right, envp, c, limiter,data);
+			exit(0);
 		}
 		close(p[0]);
 		close(p[1]);
@@ -325,6 +326,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			}
 		}
 		run_cmd(red->exe, envp, c, limiter,data);
+		exit(0);
 	}
 }
 

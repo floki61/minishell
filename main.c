@@ -108,13 +108,13 @@ int	main(int ac, char **av, char **envp)
 		if (fork() == 0)
 			(run_cmd(parsecmd(buf, envp), envp, &c, &limiter, &data));
 		wait(0);
-		printf("c == %d\n",c);
-		if(c == 89)
-		{
-			printf("her\n");
-			exit (0);
-		}
-		printf("hna\n");
+		// printf("c == %d\n",c);
+		// if(c == 89)
+		// {
+		// 	printf("her\n");
+		// 	exit (0);
+		// }
+		// printf("hna\n");
 		unlink("/tmp/.fd");
 	}
 	return (0);
