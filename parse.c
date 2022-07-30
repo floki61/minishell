@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/25 04:23:25 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/07/30 01:00:34 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	get_token(char **ps, char *es, char **q, char **eq)
 	return (token);
 }
 
-t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
+t_cmd	*parseexec(char **ps, char *es, t_list **env, t_quote quote)
 {
 	t_exec	*exec;
 	char	*q;
@@ -97,7 +97,7 @@ t_cmd	*parseexec(char **ps, char *es, char **env, t_quote quote)
 	return (cmd);
 }
 
-t_cmd	*parsecmd(char *str, char **env)
+t_cmd	*parsecmd(char *str, t_list **env)
 {
 	char	*es;
 	t_cmd	*cmd;
@@ -123,7 +123,7 @@ t_cmd	*parsecmd(char *str, char **env)
 	return (cmd);
 }
 
-t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote)
+t_cmd	*parsepipe(char	**ps, char *es, t_list **env, t_quote quote)
 {
 	t_cmd	*cmd;
 

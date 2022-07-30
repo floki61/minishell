@@ -6,47 +6,29 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/25 19:43:30 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 01:06:36 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**forenv(char **env)
-{
-	int		i;
-	char	**op;
-	char	**operation;
+// char	*exdsigne(char *op, char **env)
+// {
+// 	char	**operation;
+// 	int		i;
 
-	i = 0;
-	operation = malloc(sizeof(char *) * 37);
-	while (env[i])
-	{
-		op = ft_split(env[i], '=', 0);
-		operation[i] = op[0];
-		i++;
-	}
-	operation[i] = 0;
-	return (operation);
-}
-
-char	*exdsigne(char *op, char **env)
-{
-	char	**operation;
-	int		i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(op, env[i], ft_strlen(op)) == 0)
-		{
-			operation = ft_split(env[i], '=', 0);
-			return (operation[1]);
-		}
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		if (ft_strncmp(op, env[i], ft_strlen(op)) == 0)
+// 		{
+// 			operation = ft_split(env[i], '=', 0);
+// 			return (operation[1]);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 char	*ft_merge(char *str, char *buf)
 {
@@ -113,9 +95,9 @@ char	*ft_merge(char *str, char *buf)
 	return (merge);
 }
 
-char	*if_dsigne(char *inpt, char **env)
+char	*if_dsigne(char *inpt, t_list **env)
 {
-	char	**op;
+	t_list	*envp;
 	char	*dollar;
 	char	tmp[3];
 	char	**var;
@@ -127,6 +109,7 @@ char	*if_dsigne(char *inpt, char **env)
 	tmp[0] = 34;
 	tmp[1] = 39;
 	tmp[2] = 1;
+	envp = *env;
 	//put unprintable char then undo
 	var = ft_advanced(inpt, tmp);
 	while (var[j])
@@ -141,16 +124,14 @@ char	*if_dsigne(char *inpt, char **env)
 	if (var[j][0] == '$')
 	{
 		var[j]++;
-	 	op = forenv(env);
-		while (op[i])
+		while (envp)
 		{
-			if (strcmp(var[j], op[i]) == 0)
+			if (strcmp(var[j], envp->name) == 0)
 			{
-				dollar = exdsigne(op[i], env);
-				dollar = ft_merge(dollar, inpt);
+				dollar = ft_merge(envp->value, inpt);
 				return (dollar);
 			}
-			i++;
+			envp = envp->next;
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/28 01:40:21 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 02:30:40 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,18 +168,13 @@ char	*quotes(char *str, t_quote *quote)
 	return (buf);
 }
 
-static char	*get_cmd(t_exec *exe, char **envp, int i)
+static char	*get_cmd(t_exec *exe, char *path)
 {
 	int		j;
-	char	*path;
 	char	**cmd;
-	//char	**exec;
 
 	j = -1;
-	path = envp[i];
-	cmd = ft_split(&path[5], ':', 0);
-	//exec = ft_split(*exe->args, ' ', 1);
-	//printf ("%s , %s\n", exec[0], exec[1]);
+	cmd = ft_split(path, ':', 0);
 	if (access(exe->args[0], F_OK) != -1)
 		return (exe->args[0]);
 	while (cmd[++j])
@@ -193,25 +188,21 @@ static char	*get_cmd(t_exec *exe, char **envp, int i)
 	exit (1);
 }
 
-char	*get_path(t_exec *exe, char **envp)
+char	*get_path(t_exec *exe, t_list **envp)
 {
-	int	i;
-	int	j;
+	t_list	*tmp;
 
-	i = -1;
-	j = -1;
-	while (envp[++i])
+	tmp = *envp;
+	while (tmp)
 	{
-		if (envp[i][0] == 'P')
-		{
-			if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-				return (get_cmd(exe, envp, i));
-		}
+		if (ft_strcmp(tmp->name, "PATH") == 0)
+			return (get_cmd(exe, tmp->value));
+		tmp = tmp->next;
 	}
 	return (0);
 }
 
-void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
+void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data,char **path)
 {
 	int		fd;
 	int		i;
@@ -223,9 +214,11 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 	t_pipe	*pip;
 	t_redir	*red;
 	t_redir	*red2;
+	char	**env;
 
 	i = 0;
 	ar = NULL;
+	env = NULL;
 	if (cmd == 0)
 		exit (1);
 	if (cmd->type == EXEC)
@@ -233,13 +226,15 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 		exe = (t_exec *)cmd;
 		if (exe->args[0] == 0)
 			exit (1);
-		if((e = if_builtins(exe->args,envp, data)))
+		if((e = if_builtins(exe->args, data, path)))
 		{
 			// if(e == 2)
 			// 	*c = 89;
 			return ;
 		}
-		buf = get_path(exe, envp);
+		// i = ft_count(data);
+		// env = ft_convert(data, i);
+		buf = get_path(exe, data);
 		if (*limiter != NULL)
 		{
 			fd = open("dada", O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -263,7 +258,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			dup2(p[1], STDOUT_FILENO);
 			close(p[0]);
 			close(p[1]);
-			run_cmd(pip->left, envp, c, limiter,data);
+			run_cmd(pip->left, envp, c, limiter,data, path);
 			exit(0);
 		}
 		else
@@ -274,7 +269,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 			dup2(p[0], STDIN_FILENO);
 			close(p[0]);
 			close(p[1]);
-			run_cmd(pip->right, envp, c, limiter,data);
+			run_cmd(pip->right, envp, c, limiter,data, path);
 			exit(0);
 		}
 		close(p[0]);
@@ -325,7 +320,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data)
 					(*c)++;
 			}
 		}
-		run_cmd(red->exe, envp, c, limiter,data);
+		run_cmd(red->exe, envp, c, limiter,data, path);
 		exit(0);
 	}
 }

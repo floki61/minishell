@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/26 23:03:46 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 01:38:37 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,40 @@ void	read_from_0(char *limitter, int fd)
 		ft_putstr_fd("\n", fd);
 		free(instruction);
 	}
+}
+
+int		ft_count(t_list **data)
+{
+	int		i;
+	t_list	*tmp;
+	
+	i	= 0;
+	tmp = *data;
+	while(tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+char	**ft_convert(t_list **data, int count)
+{
+	int		i;
+	t_list	*tmp;
+	char 	**env;
+
+	i 	= 0;
+	tmp = *data;
+	env = malloc(sizeof(char *) * (count + 1));
+	while(tmp)
+	{
+		env[i]	= tmp->name;
+		env[i] 	= ft_strjoin(env[i], "=");
+		env[i]	= ft_strjoin(env[i], tmp->value);
+		i++;
+		tmp = tmp->next;
+	}
+	env[i] = NULL;
+	return (env);
 }

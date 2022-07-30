@@ -6,16 +6,32 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:43 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/27 10:02:40 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 01:09:09 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*ft_cd(char **inpt)
+void	*ft_cd(char **inpt, char **path)
 {
+	char *oldpath;
+	
+	oldpath = NULL;
 	if(inpt[2])
+	{
 		printf("cd: too many arguments\n");
+		return (0);
+	}
+	if(!ft_strcmp(inpt[1],"-"))
+	{
+		oldpath = *path;
+		*path = getcwd(NULL, 0);
+		chdir(oldpath);
+		printf("~%s\n",oldpath);
+		free(oldpath);
+		return (0);
+	}
+	*path = getcwd(NULL, 0);
 	if(chdir(inpt[1]) < 0)
 		printf("cd: no such file or directory: %s\n",inpt[1]);
 	return (0);
@@ -34,11 +50,11 @@ void	*ft_pwd(char **inpt)
 }
 
 
-int		bult_1(char	**inpt)
+int		bult_1(char	**inpt, char **path)
 {
 	if(ft_strcmp(inpt[0],"cd") == 0)
 	{
-		ft_cd(inpt);
+		ft_cd(inpt, path);
 		return (1);
 	}
 	else if(ft_strcmp(inpt[0],"pwd") == 0 )
@@ -80,16 +96,16 @@ int		bult_2(char	**inpt,t_list	**data)
 	return (0);
 }
 
-int if_builtins(char **inpt,char **envp, t_list **data)
+int if_builtins(char **inpt, t_list **data, char **path)
 {
-	if(!(*data))
-		ft_envp(envp,data);
+	// if(!(*data))
+	// 	ft_envp(envp,data);
 	if(ft_strcmp(inpt[0],"exit") == 0)
 	{
 		printf ("exit\n");
 		return (2);
 	}
-	if(bult_1(inpt) || bult_2(inpt,data))
+	if(bult_1(inpt, path) || bult_2(inpt,data))
 		return (1);
 	return (0);
 }

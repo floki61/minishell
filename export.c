@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/27 04:39:00 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/29 22:21:01 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void 	*ft_export(char **cmd,t_list **data)
                     while(*value != '=')
                          value++;
 					tmp->value = ++value;
-					return(0);
+					break ;
 				}
 				tmp = tmp->next;	
 			}

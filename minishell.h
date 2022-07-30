@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/27 09:48:35 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 02:11:08 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_cmd	*end_it(t_cmd *cmd);
 char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split(char const *s, char c, int access);
 char	**ft_advanced(char const *s, char *buf);
-char	*get_path(t_exec *exe, char **envp);
+char	*get_path(t_exec *exe, t_list **envp);
 int		lets_check(char *str);
 char	*ft_path(char *line);
 int		followed(char **s);
@@ -97,14 +97,14 @@ int		ft_strchr(char s, char *scan);
 int		ft_skip(char *s, char *skip);
 int		exist(char **ps, char *es, char *token);
 int		get_token(char **ps, char *es, char **q, char **eq);
-t_cmd	*parsecmd(char *str, char **env);
-t_cmd	*parsepipe(char	**ps, char *es, char **env, t_quote quote);
+t_cmd	*parsecmd(char *str, t_list **env);
+t_cmd	*parsepipe(char	**ps, char *es, t_list **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, char *es);
-void		run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter,t_list **data);
+void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter,t_list **data,char **path);
 int		ft_strncmp(const char *first, const char *second, size_t length);
-int		if_builtins(char **buf,char **envp, t_list **data);
+int		if_builtins(char **buf,t_list **data, char **path);
 char	*ft_skip_spaces(char *inpt);
-char	*if_dsigne(char *inpt, char **env);
+char	*if_dsigne(char *inpt, t_list **env);
 char	*quotes(char *str, t_quote *quote);
 void	handle_c(int sig);
 char	*get_next_line(int fd);
@@ -121,6 +121,8 @@ void	ft_lstadd_back(t_list **alst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);
 void 	*ft_export(char **cmd,t_list **data);
 void 	*ft_unset(char **cmd,t_list **data);
+int		ft_count(t_list **data);
+char	**ft_convert(t_list **data, int count);
 
 
 #endif

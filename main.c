@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/27 10:11:08 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 01:06:58 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,24 +89,28 @@ char	*ft_read(void)
 int	main(int ac, char **av, char **envp)
 {
 	char	*buf;
+	char	*path;
 	int		c;
 	t_list 	*data;
 	char	*limiter;
 
-	limiter = NULL;
-	(void) ac;
 	(void) av;
+	(void) ac;
+	limiter = NULL;
+	path = NULL;
 	data = NULL;
 	signal (SIGINT, handle_c);
 	//signal (SIGSEGV, handle_d);
 	signal (SIGQUIT, handle_s);
+	path = getcwd(NULL, 0);
+	ft_envp(envp,&data);
 	while (1)
 	{
 		c = 0;
 		buf = ft_read();
 		add_history(buf);
 		if (fork() == 0)
-			(run_cmd(parsecmd(buf, envp), envp, &c, &limiter, &data));
+			(run_cmd(parsecmd(buf, &data), envp, &c, &limiter, &data ,&path));
 		wait(0);
 		// printf("c == %d\n",c);
 		// if(c == 89)
