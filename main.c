@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 01:06:58 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 03:44:33 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,28 @@ char	*ft_read(void)
 {
 	char	*inpt;
 
+	// char	**cmd;
+
 	inpt = readline("\e[0;31m.ᴍɪɴɪꜱʜᴇʟʟ\e[0m ");
 	inpt = ft_skip_spaces(inpt);
 	return (inpt);
+}
+
+void	ifexit(t_cmd	*cmd)
+{
+	t_exec	*exe;
+	
+	if(cmd->type == EXEC)
+	{
+		exe = (t_exec *)cmd;
+		if(ft_strcmp(exe->args[0],"exit") == 0)
+		{
+			if(exe->args[1])
+				printf("minishell: exit: %s: numeric argument required\n",exe->args[1]);
+			exit(0);	
+		}
+	}
+	return ;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -92,6 +111,7 @@ int	main(int ac, char **av, char **envp)
 	char	*path;
 	int		c;
 	t_list 	*data;
+	t_cmd	*cmd;
 	char	*limiter;
 
 	(void) av;
@@ -109,29 +129,23 @@ int	main(int ac, char **av, char **envp)
 		c = 0;
 		buf = ft_read();
 		add_history(buf);
+		cmd = parsecmd(buf, &data);
+		ifexit(cmd);
 		if (fork() == 0)
-			(run_cmd(parsecmd(buf, &data), envp, &c, &limiter, &data ,&path));
+			(run_cmd(cmd, envp, &c, &limiter, &data ,&path));
 		wait(0);
-		// printf("c == %d\n",c);
-		// if(c == 89)
-		// {
-		// 	printf("her\n");
-		// 	exit (0);
-		// }
-		// printf("hna\n");
 		unlink("/tmp/.fd");
 	}
 	return (0);
 }
 
 // export omar=90=op ✓
-//export !omar=90
-// export omar+=78
+//export !omar=90	 ✓
 //export all=""		✓
 //export omar=   >>> env: omar=    export: omar="" ✓
-//unset PATH => ls output:""
+//unset PATH => ls output:""	 ✓
 
-//exit
+//exit		✓
 
 
 // !dm=90 		!dm=90: event not found ✓
@@ -143,5 +157,9 @@ int	main(int ac, char **av, char **envp)
 // dm=!45       dm=!45: event not found ✓
 // dm=4!5       dm=!45: event not found ✓
 
-// bash-3.2$ export tio=!23!me!45
+// bash-3.2$ export tio=!23!me!45	
 // bash: !me!45: event not found    
+
+// heredoc 
+// $exit
+// export omar+=78

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:43 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/30 01:09:09 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 02:48:29 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ int		bult_1(char	**inpt, char **path)
 		ft_pwd(inpt);
 		return (1);
 	}
-	// else if(ft_strcmp(inpt[0],"exit") == 0)
-	// {
-	// 	printf ("exit\n");
-	// 	exit(1);
-	// }
+	else if(ft_strcmp(inpt[0],"exit") == 0)
+	{
+		printf ("exit\n");
+		exit(1);
+	}
 	return (0);
 }
 
@@ -98,8 +98,6 @@ int		bult_2(char	**inpt,t_list	**data)
 
 int if_builtins(char **inpt, t_list **data, char **path)
 {
-	// if(!(*data))
-	// 	ft_envp(envp,data);
 	if(ft_strcmp(inpt[0],"exit") == 0)
 	{
 		printf ("exit\n");

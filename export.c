@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/29 22:21:01 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/30 02:47:27 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int exist_h(char *str,char c)
             {
                 while(*str != '!')
                    str++;
-                printf("%s: event not found\n",str);
+                printf("minishell: %s: event not found\n",str);
                 return (0);
             }
 			if((str2[0][0] >= '0' && str2[0][0] <= '9') || pos == 3)
 			{
-				printf("export:	'%s': not a valid identifier\n",str);
+				printf("minishell: export:	'%s': not a valid identifier\n",str);
 				return (0);
 			}
 			while(*str != '=')
@@ -75,7 +75,7 @@ int exist_h(char *str,char c)
 			{
 				 while(*str != '!')
                    str++;
-				 printf("%s: event not found\n",str);
+				 printf("minishell: %s: event not found\n",str);
 				 return (0);
 			}
 			return (1);
