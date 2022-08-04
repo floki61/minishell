@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 03:44:33 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:39:26 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ char	*ft_read(void)
 void	ifexit(t_cmd	*cmd)
 {
 	t_exec	*exe;
-	
 	if(cmd->type == EXEC)
 	{
 		exe = (t_exec *)cmd;
@@ -104,12 +103,37 @@ void	ifexit(t_cmd	*cmd)
 	}
 	return ;
 }
-
+int	ifenv(t_cmd *cmd ,t_list	**data)
+ {
+	t_exec	*exe;
+	if(cmd->type != EXEC)
+		return 0;
+	exe = (t_exec *)cmd;
+	if(ft_strcmp(exe->args[0],"env") == 0)
+	{
+		printenvp(exe->args,data);
+		return(1);
+	}
+	else if(ft_strcmp(exe->args[0],"export") == 0)
+	{
+		printf("export'\n");
+		ft_export(exe->args,data);
+		return (1);
+	}
+	else if (ft_strcmp(exe->args[0],"unset") == 0)
+	{
+		ft_unset(exe->args,data);
+		return (1);
+	}
+	return(0);
+ }
 int	main(int ac, char **av, char **envp)
 {
 	char	*buf;
 	char	*path;
 	int		c;
+	int 	pid;
+	int		status;
 	t_list 	*data;
 	t_cmd	*cmd;
 	char	*limiter;
@@ -131,9 +155,21 @@ int	main(int ac, char **av, char **envp)
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
 		ifexit(cmd);
-		if (fork() == 0)
-			(run_cmd(cmd, envp, &c, &limiter, &data ,&path));
-		wait(0);
+		if(ifenv(cmd, &data))
+			continue;
+		else
+		{
+			pid = fork();
+			if (pid == 0)
+				(run_cmd(cmd, envp, &c, &limiter, &data ,&path));
+			// wait(0);
+			waitpid(pid, &status, 0);
+		}
+		// if ( WIFEXITED(status) ) 
+		// {
+       	//  const int es = WEXITSTATUS(status);
+       	//  printf("exit status was %d\n", es);
+    	// }
 		unlink("/tmp/.fd");
 	}
 	return (0);
@@ -162,4 +198,23 @@ int	main(int ac, char **av, char **envp)
 
 // heredoc 
 // $exit
-// export omar+=78
+// export omar+=78	✓
+
+
+// VALUE
+//1 export omar=op$l  >>> omar=op
+
+//2 bash-3.2$ export flo=&op
+// [1] 57564
+// bash: op: command not found
+// [1]+  Done                    export flo=
+
+// NAME
+//3 bash-3.2$ export fl&o=op
+// [1] 57910
+
+// bash-3.2$ export m)e=op
+// bash: syntax error near unexpected token `)'
+
+
+// export # 45=78  ✓

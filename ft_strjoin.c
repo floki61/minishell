@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:42 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 02:37:41 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/07/31 04:13:23 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strjoin(char	*s1, char	*s2)
 	while (s2[i])
 		ret[str1++] = s2[i++];
 	ret[strr1 + str2] = '\0';
-	free(s1);
+	// free(s1);
 	return (ret);
 }
 

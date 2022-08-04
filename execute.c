@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 02:30:40 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/03 12:21:13 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,11 +227,7 @@ void	run_cmd(t_cmd *cmd, char **envp, int *c, char **limiter, t_list **data,char
 		if (exe->args[0] == 0)
 			exit (1);
 		if((e = if_builtins(exe->args, data, path)))
-		{
-			// if(e == 2)
-			// 	*c = 89;
-			return ;
-		}
+			exit(0) ;
 		// i = ft_count(data);
 		// env = ft_convert(data, i);
 		buf = get_path(exe, data);
