@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/04 14:39:26 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/04 19:19:00 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,3 +218,7 @@ int	main(int ac, char **av, char **envp)
 
 
 // export # 45=78  ✓
+
+//exit after the export failde
+//export name without value in export
+// add seperator

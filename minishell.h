@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 02:11:08 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/05 14:27:36 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ enum e_define
 
 typedef struct t_list
 {
-	char *name;
-	char *value;
+	char 	*name;
+	char 	*value;
+	char	*sep;	
 	struct t_list *next;
 }	t_list;
 
@@ -116,7 +117,7 @@ void	ft_putstr_fd(char *s, int fd);
 int		ft_echo(char **cmd,t_list	**data);
 void	ft_envp(char **envp,t_list	**data);
 int 	printenvp(char	**inpt,t_list **data);
-t_list	*ft_lstnew(void *name,void *value);
+t_list	*ft_lstnew(void *name,void *value, void *sep);
 void	ft_lstadd_back(t_list **alst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);
 void 	*ft_export(char **cmd,t_list **data);

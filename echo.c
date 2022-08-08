@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 00:59:24 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/07/27 01:59:03 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/08 12:59:56 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ft_echo(char **cmd,t_list	**data)
 	int n;
 
 	i = 1;
+	
 	while(cmd[i])
 	{
 		n = 0;
@@ -62,5 +63,7 @@ int	ft_echo(char **cmd,t_list	**data)
 				return (0);
 	}
 	echoprint(cmd, i, data);
+	if(i == 1)
+		printf("\n");
 	return (0);
 }	

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/03 12:21:13 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/08 12:50:02 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ static char	*get_cmd(t_exec *exe, char *path)
 		if (access(cmd[j], F_OK) != -1)
 			return (cmd[j]);
 	}
+	dup2(1,STDOUT_FILENO);
+	write(1, "salina\n",7);
 	printf ("minishell: %s: command not found\n", exe->args[0]);
 	exit (1);
 }
