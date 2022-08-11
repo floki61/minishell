@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/11 05:11:18 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/11 19:28:00 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,14 @@ int	check_exp(char *str)
 	char **str2;
 
 	i = 0;
-	str2 = ft_split(str,'=', 0);
-    pos = n_position(str2[0], '!');
-			
+	
+	if(!ft_strcmp(str, "="))
+		pos = 3;
+	else
+	{
+		str2 = ft_split(str,'=', 0);
+   		pos = n_position(str2[0], '!');
+	}	
 	write(1, "check_exp\n",10);
     if(pos == 1)
     {
@@ -263,74 +268,3 @@ int	ft_export(char **cmd, t_list **data)
 	}
 	return (2);
 }
-
-// void	*ft_export(char **cmd, t_list **data)
-// {
-// 	t_list *tmp;
-// 	char	**op;
-// 	char    *value;
-// 	char 	*str;
-// 	int		i;
-// 	int		j;
-	
-// 	i = 1;
-// 	j = 0;
-// 	str = NULL;
-// 	if(!cmd[i] || cmd[i][0] == '#')
-// 	{
-// 		ft_printenv(*data);
-// 		return (0);
-// 	}
-// 	while(cmd[i])
-// 	{
-// 		j = 0;
-// 		tmp = *data;
-// 		if(!exist_sep(cmd[i]))
-// 		{
-// 			if(check_exp(cmd[i]))
-// 			{
-// 				ft_lstadd_back(data,ft_lstnew(cmd[i], NULL, NULL));
-// 				return (0);
-// 			}
-// 			else
-// 				return (0);
-// 		}
-// 		while(cmd[i][0] == '#')
-// 			i++;
-// 		op = ft_split(cmd[i], '=', 0);
-// 		if(op[0][ft_strlen(op[0]) - 1] == '+')
-// 		{
-// 			op[0][ft_strlen(op[0]) - 1] = '\0';
-// 			j++;
-// 		}
-// 		while(tmp)
-// 		{
-// 			if(ft_strcmp(op[0],tmp->name) == 0)
-// 			{
-// 				value = cmd[i];
-//     	        while(*value != '=')
-//     	            value++;
-// 				if(!tmp->sep)
-// 					continue;
-// 				else if(j == 1)
-// 					tmp->value = ft_strjoin(tmp->value,++value);
-// 				else
-// 					tmp->value = ++value;
-// 				j = 3;
-// 				break ;
-// 			}
-// 			tmp = tmp->next;
-// 		}
-// 		if(j != 3)
-// 		{
-// 			j = 0;
-// 			value = cmd[i];
-//     		while(*value != '=')
-//     	    	value++;
-// 			ft_lstadd_back(data,ft_lstnew(op[0],++value, "="));
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
-

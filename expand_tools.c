@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 01:55:34 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/11 15:05:51 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static char	*assigning(char *more, char *end, t_list **env, int *thief)
 
 	i = 0;
 	tmp = *env;
+	dollar = NULL;
 	if(ft_strcmp(more, ft_strjoin("?", end)) == 0)
 	{
 		dollar = ft_itoa(exit_status);
@@ -36,10 +37,7 @@ static char	*assigning(char *more, char *end, t_list **env, int *thief)
 		}
 		tmp = tmp->next;
 		if (tmp == NULL)
-		{
 			(*thief) = 1;
-			dollar = "";
-		}
 	}
 	return (dollar);
 }
@@ -48,35 +46,27 @@ static char	*edges(char *more, t_list **env)
 {
 	char	*end;
 	char	*dollar;
-	char	quote[3];
 	int		thief;
 
 	end = NULL;
 	thief = 0;
-	quote[0] = 34;
-	quote[1] = 39;
-	quote[2] = ' ';
-	if (ft_skip(more, quote))
-		end = after_world(more);
+	end = after_world(more);
 	dollar = assigning(more, end, env, &thief);
-	if (ft_skip(more, quote))
-	{
-		if (dollar && thief != 1)
-			dollar = ft_strjoin(dollar, after_world(more));
-		else if (thief == 1)
-			dollar = after_world(more);
-	}
+	if (dollar && thief != 1)
+		dollar = ft_strjoin(dollar, after_world(more));
+	else if (thief == 1)
+		dollar = "";
 	return (dollar);
 }
 
-static char	*undo(char *str)
+static char	*undo(char *str, int c)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == 2)
+		if (str[i] == c)
 			str[i] = '$';
 		i++;
 	}
@@ -88,8 +78,10 @@ static void	expand(char **assign, t_list **env, char *var)
 	char	*dollar;
 	char	**more;
 	int		y;
+	int		i;
 
 	y = 0;
+	i = 0;
 	while (var[y])
 	{
 		if (var[y] == '$')
@@ -97,6 +89,11 @@ static void	expand(char **assign, t_list **env, char *var)
 		y++;
 	}
 	more = ft_splito(var, '$');
+	while (more[i])
+	{
+		more[i] = undo(more[i], 3);
+		i++;
+	}
 	if (y > 0)
 	{
 		(*assign) = ft_strjoin((*assign), more[0]);
@@ -130,7 +127,10 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
 		else
 		{
 			if (ft_skip(var[j], sign))
-				var[j] = undo(var[j]);
+			{
+				var[j] = undo(var[j], 3);
+				var[j] = undo(var[j], 2);
+			}
 			assign = ft_strjoin(assign, var[j]);
 		}
 		(*x)++;

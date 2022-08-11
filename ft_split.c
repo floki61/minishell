@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/07 16:48:57 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/08 11:02:55 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ static char	*copy(int t, char const *s, char c, int access)
 		return (NULL);
 	if (s[t] == 1 && access == 1)
 	{
-		t++;
+		if (s[t] && s[t] == 1)
+			t++;
 		while (j < len && !((s[t] == 1 && s[t + 1] == ' ')))
 		{
 			str[j] = (char)s[t];

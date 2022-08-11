@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/08 18:00:14 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/11 15:54:56 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,10 @@ int	get_token(char **ps, char **q)
 
 	i = 0;
 	s = *ps;
-	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
-		i++;
+	ft_skip_spaces(s, &i);
 	if (q)
 		*q = &s[i];
-	token = s[i];
-	if (s[i] == 0)
-		return (token);
-	else if (s[i] == '|')
-	{
-		i++;
-		token = '|';
-	}
-	else if (s[i] == '<' || s[i] == '>')
-		token = followed(&s);
-	else
-		token = 'F';
+	token = tokenizer(s, &i);
 	if (s[i] == 1)
 	{
 		i++;
@@ -45,58 +33,33 @@ int	get_token(char **ps, char **q)
 			i++;
 	}
 	else
-	{
-		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f") && !ft_strchr(s[i], "|<>") && s[i] != 1)
+		while (s[i] != '\0' && !ft_strchr(s[i], " \t\r\n\v\f")
+			&& !ft_strchr(s[i], "|<>"))
 			i++;
-	}
-	while (s[i] != '\0' && ft_strchr(s[i], " \t\r\n\v\f"))
-		i++;
+	ft_skip_spaces(s, &i);
 	*ps = &s[i];
-	//printf ("ps =%s\ns =%s\nq =%s\n", *ps, &s[i], *q);
 	return (token);
 }
 
 t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 {
 	t_exec	*exec;
-	char	*q;
-	char	**one;
-	int		token;
-	int		i;
 	int		x;
+	int		i;
 	t_cmd	*cmd;
 
 	i = 0;
 	x = 0;
 	cmd = exelior(*ps);
 	exec = (t_exec *)cmd;
-	//printf ("the cmd : %s\nthe words = %d\n", *ps, words);
-	cmd = parsered (cmd, ps,quote);
+	cmd = parsered (cmd, ps, env, quote);
 	while (!exist(ps, "|"))
 	{
-		if ((token = get_token(ps, &q)) == 0)
+		if (exec_args(&exec, i, ps) == 0)
 			break ;
-		if (token != 'F')
-		{
-			printf ("%d\n", i);
-			exit (1);
-		}
-		//for quotes its cuz of the inprintable char 1
-		one = ft_split(q, ' ', 1);
-		exec->args[i] = one[0];
-		//printf ("exe[%d] = %s with %d for %d quote\n", i, exec->args[i], quote.quote[x], x);
-		//if (quote.quote[x] == 1 && ft_skip(exec->args[i], "$"))
-		//{
-			exec->args[i] = if_dsigne(exec->args[i], env, quote, &x);
-			//printf ("after exe[%d] = %s|\n", i, exec->args[i]);
-		//}
-		//else
-			//exec->args[i] = no_space(exec->args[i]);
-		//x++;
+		exec->args[i] = if_dsigne(exec->args[i], env, quote, &x);
 		i++;
-		// if (i > words)
-		// 	exit (1);
-		cmd = parsered (cmd, ps,quote);
+		cmd = parsered (cmd, ps, env, quote);
 	}
 	return (cmd);
 }
@@ -120,7 +83,7 @@ t_cmd	*parsecmd(char *str, t_list **env)
 	if (str[0] == '|')
 	{
 		printf ("minishell: syntax error near unexpected token '|'\n");
-		exit (1);
+		exit (0);
 	}
 	str = quotes(str, &quote);
 	str = ft_path(str);
@@ -141,7 +104,7 @@ t_cmd	*parsepipe(char	**ps, t_list **env, t_quote quote)
 	return (cmd);
 }
 
-t_cmd	*parsered(t_cmd	*cmd, char **ps,t_quote quote)
+t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote)
 {
 	int		token;
 	char	*q;
@@ -157,14 +120,14 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps,t_quote quote)
 		}
 		clear = clean(q);
 		if (token == '<')
-			cmd = redirect(cmd, clear, O_RDONLY, 0, 1);
+			cmd = redirect(cmd, clear, O_RDONLY, 0);
 		else if (token == '>')
-			cmd = redirect(cmd, clear, O_WRONLY | O_CREAT | O_TRUNC, 1, 2);
+			cmd = redirect(cmd, clear, O_WRONLY | O_CREAT | O_TRUNC, 1);
 		else if (token == '+')
-			cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1, 3);
+			cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1);
 		else if (token == '-')
-			cmd = redirect (cmd, clear, O_RDONLY, 0, 4);
-		cmd = parsered(cmd, ps, quote);
+			cmd = redirect (cmd, clear, 3, 0);
+		cmd = parsered(cmd, ps, env, quote);
 	}
 	return (cmd);
 }

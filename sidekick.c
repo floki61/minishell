@@ -6,32 +6,61 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:12:21 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/07 18:00:15 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/11 12:38:44 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strdup(const char *src)
+int	ft_strchr(char s, char *scan)
 {
-	int		i;
-	int		j;
-	char	*p;
+	int	i;
 
 	i = 0;
-	j = 0;
-	p = NULL;
-	while (src[i])
+	while (scan[i] && scan[i] != s)
 		i++;
-	p = malloc((i + 1) * sizeof(char));
-	if (!(p))
-		return (NULL);
-	while (i > 0)
+	if (i == ft_strlen(scan))
+		return (0);
+	return (1);
+}
+
+int	ft_skip(char *s, char *skip)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (s[i])
 	{
-		p[j] = src[j];
-		j++;
-		i--;
+		j = 0;
+		while (skip[j])
+		{
+			if (skip[j] == s[i])
+				return (1);
+			j++;
+		}
+		i++;
 	}
-	p[j] = '\0';
-	return (p);
+	return (0);
+}
+
+int	exist(char **ps, char *token)
+{
+	char	*s;
+	int		i;
+
+	i = 0;
+	s = *ps;
+	while (s[i] != '\0' && s[i] == 2)
+		s++;
+	*ps = &s[i];
+	return (s[i] && ft_strchr(s[i], token));
+}
+
+int	is_alnum(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
 }

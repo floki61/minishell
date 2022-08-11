@@ -3,49 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dsigne.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/08 18:04:36 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/11 15:09:37 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char	**forenv(char **env)
-// {
-// 	int		i;
-// 	char	**op;
-// 	char	**operation;
+char	**forenv(char **env)
+{
+	int		i;
+	char	**op;
+	char	**operation;
 
-// 	i = 0;
-// 	while (env[i])
-// 		i++;
-// 	operation = malloc(sizeof(char *) * (i + 1));
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		op = ft_split(env[i], '=', 0);
-// 		operation[i] = op[0];
-// 		i++;
-// 	}
-// 	operation[i] = 0;
-// 	return (operation);
-// }
+	i = 0;
+	while (env[i])
+		i++;
+	operation = malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (env[i])
+	{
+		op = ft_split(env[i], '=', 0);
+		operation[i] = op[0];
+		i++;
+	}
+	operation[i] = 0;
+	return (operation);
+}
 
-// char	*exdsigne(char *op, t_list **env)
-// {
-// 	t_list *tmp;
+char	*exdsigne(char *op, char **env)
+{
+	char	**operation;
+	int		i;
 
-// 	i = 0;
-// 	while (tmp)
-// 	{
-// 		if (ft_strcmp(op, tmp->name) == 0)
-// 			return (tmp->value);
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(op, env[i], ft_strlen(op)) == 0)
+		{
+			operation = ft_split(env[i], '=', 0);
+			return (operation[1]);
+		}
+		i++;
+	}
+	return (0);
+}
 
 void	accountant(char **str, int i, int *dollar)
 {
@@ -67,7 +71,9 @@ void	accountant(char **str, int i, int *dollar)
 			s[i - (*dollar)] = 2;
 			(*dollar)--;
 		}
-		(*dollar) = 0;
+		if ((*dollar) == 1 && (s[i] == ' ' || s[i] == '\0'))
+			s[i - 1] = 3;
+		(*dollar) = 0;		// if u found a $ and after there is a space or none make it 3 then if u found 3 make it dollar ;)
 	}
 }
 
@@ -110,7 +116,9 @@ char	*after_world(char *str)
 	len = 0;
 	while (str[i])
 	{
-		if (str[i] == 34 || str[i] == 39 || str[i] == ' ')
+		if (str[0] == '?')
+			i++;
+		if (!is_alnum(str[i]))
 			break ;
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 05:22:46 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/10 22:20:42 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/11 12:38:24 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	*ft_strdup(const char *src)
 	p[j] = '\0';
 	return (p);
 }
-
 
 char	*ft_itoa(int n)
 {

@@ -16,11 +16,15 @@ SRCS =	main.c \
 		get_next_line.c \
 		ft_splito.c \
 		expand_tools.c \
-		tools2.c 		\
+		correction.c \
+		quotes.c \
+		sidekick.c  \
+		branch.c \
 		env.c \
 		export.c \
+		ft_itoa.c \
+		more_tools.c \
 		unset.c \
-		ft_itoa.c 	\
 
 all : $(NAME)
 
