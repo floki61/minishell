@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:50:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/05 15:38:31 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/11 02:33:00 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ int printenvp(char	**inpt,t_list **data)
 	t_list *tmp;
 
 	if(inpt[1])
+	{
 		printf("env: %s: NO such file or directory\n",inpt[1]);
+		return (127);
+	}
 	tmp = *data;
 	while (tmp)
 	{
@@ -61,7 +64,7 @@ int printenvp(char	**inpt,t_list **data)
 			printf("%s=%s\n",tmp->name,tmp->value);
 		tmp = tmp->next;
 	}
-	return(0);
+	return(2);
 }
 
 

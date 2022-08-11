@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 02:38:00 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/07 16:48:57 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@ int	wd_count(const char *str, char c, int access)
 		if (str[i] == 1 && access == 1)
 		{
 			i++;
-			while (str[i] != '\0' && str[i] != 1)
+			while (str[i] != '\0' && !((str[i] == 1 && str[i + 1] == ' ')))
 				i++;
-			i++;
+			if (str[i])
+				i++;
 			len++;
 		}
 		while (str[i] == c)
 			i++;
 		if (str[i] != '\0' && str[i] != c && str[i] != 1)
 		{
-			while (str[i] != '\0' && str[i] != c && str[i] != 1)
+			while (str[i] != '\0' && str[i] != c)
 				i++;
 			len++;
 		}
 	}
-	//printf ("len = %d %d\n", len, access);
 	return (len);
 }
 
@@ -53,19 +53,18 @@ static int	ft_test(const char *str, int i, char c, int access)
 	cnt = 0;
 	if (s[i] == 1 && access == 1)
 	{
-		while (s[i] == 1)
-			i++;
-		while (s[i] != 1 && s[i])
+		i++;
+		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
 		{
 			i++;
 			cnt++;
 		}
-		while (s[i] == 1)
+		if (s[i])
 			i++;
 	}
 	else
 	{
-		while (s[i] && (s[i] != 1 && s[i] != c))
+		while (s[i] && (s[i] != c))
 		{
 			i++;
 			cnt++;
@@ -83,23 +82,23 @@ static char	*copy(int t, char const *s, char c, int access)
 	j = 0;
 	len = ft_test(s, t, c, access);
 	str = (char *)malloc(sizeof (char) * len + 1);
-	//printf ("fiya f tol %d\n", len);
 	if (!str)
 		return (NULL);
 	if (s[t] == 1 && access == 1)
 	{
 		t++;
-		while (j < len && s[t] != 1)
+		while (j < len && !((s[t] == 1 && s[t + 1] == ' ')))
 		{
 			str[j] = (char)s[t];
 			j++;
 			t++;
 		}
-		t++;
+		if (s[t])
+			t++;
 	}
 	else
 	{
-		while (j < len && (s[t] != c && s[t] != 1))
+		while (j < len && (s[t] != c))
 		{
 			str[j] = (char)s[t];
 			j++;
@@ -107,7 +106,6 @@ static char	*copy(int t, char const *s, char c, int access)
 		}
 	}
 	str[j] = '\0';
-	//printf ("this %s\n", str);
 	return (str);
 }
 
@@ -125,7 +123,6 @@ char	**ft_split(char const *s, char c, int access)
 	tab = malloc(sizeof(char *) * (words + 1));
 	if (!tab)
 		return (NULL);
-	//printf ("%d\n", words); 
 	while (j < words)
 	{
 		while (s[i] == c)

@@ -2,7 +2,7 @@
   "document": {
     "id": "doc",
     "name": "New Document",
-    "version": 15.3,
+    "version": 15.5,
     "pages": {
       "page": {
         "id": "page",
@@ -263,6 +263,50 @@
             ],
             "rotation": 0,
             "text": "parseredir cmd, **ps, *es\npeek for \"<>\"\ngettoken should return \"a\", if not its an error\nthen if < redircmd with ps = O_RDONLY, 0\n> ps = O_WRONLY | O_CREATE | O_TRUNC, 1 \n>> pd = O_WRONLY | O_CREATE, 1",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "0c8eb7d0-4f60-4629-2717-039da258d62c": {
+            "id": "0c8eb7d0-4f60-4629-2717-039da258d62c",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 13,
+            "point": [
+              110.23000000000002,
+              2530.53
+            ],
+            "rotation": 0,
+            "text": "for assigning there is many cases :\n$    = $\n$$ = Error\n$USER   = sfarhan\n$ = $\nfsd$USER = fsdsfarhan\n$USER$USER = sfarhansfarhan\n$USERdsf = NULL\n$USER' = sfarhan'",
+            "style": {
+              "color": "black",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1,
+              "font": "script",
+              "textAlign": "middle"
+            }
+          },
+          "30353730-9cc3-4dba-36ad-1bdbc7cc5a2f": {
+            "id": "30353730-9cc3-4dba-36ad-1bdbc7cc5a2f",
+            "type": "text",
+            "name": "Text",
+            "parentId": "page",
+            "childIndex": 14,
+            "point": [
+              508.41,
+              2572.82
+            ],
+            "rotation": 0,
+            "text": "if there is $\n if strlen = 1 print $\nelse if strlen > 1 && $ after $\nprint ERROR\n \nafter split with 1 and ' '\nif (skip str, $)\ncount dollars = words that should be assigned\nmalloc for words before dollar and join\nsplit with $\n if (sign > 0)\nthen join and j++;\nwhile (more[j])\nif there's quotes after keep them \nthen join them in the end of the loop\nassign and join",
             "style": {
               "color": "black",
               "size": "small",

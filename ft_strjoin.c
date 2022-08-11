@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:42 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/31 04:13:23 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/10 22:23:34 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@ char	*ft_strjoin(char	*s1, char	*s2)
 {
 	char	*ret;
 	int		i;
-	int		str1;
-	int		str2;
-	int		strr1;
+	int		j;
 
 	i = -1;
-	str1 = ft_strlen(s1);
-	str2 = ft_strlen(s2);
-	ret = (char *) malloc(sizeof(char) * (str1 + str2 + 1));
+	j = 0;
+	ret = (char *) malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!ret)
 	{
 		free (ret);
@@ -31,12 +28,12 @@ char	*ft_strjoin(char	*s1, char	*s2)
 	}
 	if (s1)
 		while (s1[++i])
-			ret[i] = s1[i];
-	strr1 = str1;
+			ret[j++] = s1[i];
 	i = 0;
-	while (s2[i])
-		ret[str1++] = s2[i++];
-	ret[strr1 + str2] = '\0';
+	if (s2)
+		while (s2[i])
+			ret[j++] = s2[i++];
+	ret[j] = '\0';
 	// free(s1);
 	return (ret);
 }
@@ -66,9 +63,9 @@ int	ft_limites(char *str)
 	if (ft_strncmp(str, "|", 1) == 0)
 		return (1);
 	else if (ft_strncmp(str, ">>", 2) == 0)
-		return (1);
+		return (2);
 	else if (ft_strncmp(str, "<<", 2) == 0)
-		return (0);
+		return (2);
 	else if (ft_strncmp(str, ">", 1) == 0)
 		return (1);
 	else if (ft_strncmp(str, "<", 1) == 0)

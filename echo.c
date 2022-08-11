@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/27 00:59:24 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/08 12:59:56 by oel-berh         ###   ########.fr       */
+/*   Created: 2022/07/26 04:34:11 by sfarhan           #+#    #+#             */
+/*   Updated: 2022/08/11 03:42:50 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_echo(char **cmd,t_list	**data)
 			if(cmd[i][n] != '-')
 			{
 				if(echoprint(cmd, i, data))
-					return (0);
+					return (2);
 			}
 			else
 				n++;
@@ -60,10 +60,62 @@ int	ft_echo(char **cmd,t_list	**data)
 			i++;
 		else
 			if(echoprint(cmd, i, data))
-				return (0);
+				return (2);
 	}
 	echoprint(cmd, i, data);
 	if(i == 1)
 		printf("\n");
-	return (0);
+	return (2);
 }	
+
+
+// char *no_space(char *str)
+// {
+// 	int		i;
+// 	int		len;
+// 	int		quote;
+// 	char	*buf;
+	
+// 	i = 0;
+// 	len = 0;
+// 	quote = 0;
+// 	//i can change get token or use it
+// 	while (str[i])
+// 	{
+// 		if (str[i] == 1)
+// 			quote++;
+// 		i++;
+// 	}
+// 	len = ft_strlen(str) - quote;
+// 	buf = malloc (sizeof(char) * len + 1);
+// 	i = 0;
+// 	len = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == 1)
+// 			i++;
+// 		buf[len] = str[i];
+// 		len++;
+// 		i++;
+// 	}
+// 	buf[len] = '\0';
+// 	//printf ("with no space : %s\n", str);
+// 	free (str);
+// 	return (buf);
+// }
+
+// int	spaces_still(char *str)
+// {
+// 	int	i;
+// 	int	spaces;
+	
+// 	i = 0;
+// 	spaces = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == ' ')
+// 			spaces++;
+// 		i++;
+// 	}
+// 	return (spaces);
+// }

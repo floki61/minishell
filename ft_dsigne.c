@@ -6,119 +6,125 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/01 00:31:04 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/08 18:04:36 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_merge(char *str, char *buf)
-{
-	int		i;
-	int		j;
-	int		x;
-	int		count;
-	char	*merge;
+// char	**forenv(char **env)
+// {
+// 	int		i;
+// 	char	**op;
+// 	char	**operation;
 
-	i = 0;
-	j = 0;
-	count = 0;
-	while (buf[i])
+// 	i = 0;
+// 	while (env[i])
+// 		i++;
+// 	operation = malloc(sizeof(char *) * (i + 1));
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		op = ft_split(env[i], '=', 0);
+// 		operation[i] = op[0];
+// 		i++;
+// 	}
+// 	operation[i] = 0;
+// 	return (operation);
+// }
+
+// char	*exdsigne(char *op, t_list **env)
+// {
+// 	t_list *tmp;
+
+// 	i = 0;
+// 	while (tmp)
+// 	{
+// 		if (ft_strcmp(op, tmp->name) == 0)
+// 			return (tmp->value);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
+
+void	accountant(char **str, int i, int *dollar)
+{
+	char	*s;
+
+	s = *str;
+	if ((*dollar) % 2 == 0)
 	{
-		if (buf[i] == 1)
-			i++;
-		else if (buf[i] == '$')
+		while ((*dollar))
 		{
-			while (buf[i] != 1)
-				i++;
-		}
-		else
-		{
-			count++;
-			i++;
-		}
-	}
-	merge = malloc (sizeof(char) * ft_strlen(str) + count + 1);
-	i = 0;
-	while (buf[i])
-	{
-		if (buf[i] == 1)
-			i++;
-		else if (buf[i] == '$')
-			break ;
-		else
-		{
-			merge[j] = buf[i];
-			j++;
-			i++;
-		}
-	}
-	x = 0;
-	while (str[x])
-	{
-		merge[j] = str[x];
-		j++;
-		x++;
-	}
-	while (buf[i] != 1)
-		i++;
-	while (buf[i])
-	{
-		if (buf[i] == 1)
-			i++;
-		else
-		{
-			merge[j] = buf[i];
-			j++;
-			i++;
+			s[i - (*dollar)] = 2;
+			(*dollar)--;
 		}
 	}
-	merge[j] = '\0';
-	return (merge);
+	else
+	{
+		while ((*dollar) > 1)
+		{
+			s[i - (*dollar)] = 2;
+			(*dollar)--;
+		}
+		(*dollar) = 0;
+	}
 }
 
-char	*if_dsigne(char *inpt, t_list **env)
+char	**cashier(char *str)
 {
-	t_list	*envp;
-	char	*dollar;
-	char	tmp[3];
-	char	**var;
+	char	**words;
 	int		i;
 	int		j;
+	int		dollar;
 
 	i = 0;
 	j = 0;
-	tmp[0] = 34;
-	tmp[1] = 39;
-	tmp[2] = 1;
-	envp = *env;
-	//put unprintable char then undo
-	var = ft_advanced(inpt, tmp);
-	while (var[j])
+	dollar = 0;
+	words = ft_splito(str, 1);
+	while (words[i])
 	{
-		if (var[j][0] == '$')
-			break ;
-		j++;
-	}
-	if (var[j] == NULL)
-		return (0);
-	i = 0;
-	if (var[j][0] == '$')
-	{
-		var[j]++;
-		if(var[j][1] == '?')
+		j = 0;
+		while (words[i][j])
 		{
-			
-		}
-		while (envp)
-		{
-			if (strcmp(var[j], envp->name) == 0)
+			while (words[i][j] == '$')
 			{
-				dollar = ft_merge(envp->value, inpt);
-				return (dollar);
+				dollar++;
+				j++;
 			}
-			envp = envp->next;
+			accountant(&words[i], j, &dollar);
+			j++;
 		}
+		i++;
 	}
-	return (0);
+	return (words);
+}
+
+char	*after_world(char *str)
+{
+	int		i;
+	int		len;
+	char	*quote;
+
+	i = 0;
+	len = 0;
+	while (str[i])
+	{
+		if (str[i] == 34 || str[i] == 39 || str[i] == ' ')
+			break ;
+		i++;
+	}
+	if (str[i] == '\0')
+		return (NULL);
+	len = ft_strlen(str) - i;
+	quote = malloc (sizeof(char) * (len + 1));
+	len = 0;
+	while (str[i])
+	{
+		quote[len] = str[i];
+		i++;
+		len++;
+	}
+	quote[len] = '\0';
+	return (quote);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/07/30 01:38:37 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/07 17:12:20 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,57 +30,43 @@ int	much_to_skip(const char *str, int i)
 	return (i);
 }
 
-void	read_from_0(char *limitter, int fd)
+int	num_quotes(const char *str, char c)
 {
-	char	*instruction;
+	int	i;
+	int	len;
 
-	instruction = NULL;
-	while ((instruction = readline("pipe herdoc> ")))
+	i = 0;
+	len = 0;
+	if (str == NULL)
+		return (0);
+	while (str[i])
 	{
-		if (strcmp(limitter, instruction) == 0)
+		if (str[i] == 34)
 		{
-			close(0);
-			close(fd);
-			return ;
+			i++;
+			while (str[i] != '\0' && str[i] != 34)
+				i++;
+			if (str[i])
+				i++;
+			len++;
 		}
-		ft_putstr_fd(instruction, fd);
-		ft_putstr_fd("\n", fd);
-		free(instruction);
+		else if (str[i] == 39)
+		{
+			i++;
+			while (str[i] != '\0' && str[i] != 39)
+				i++;
+			if (str[i])
+				i++;
+			len++;
+		}
+		while (str[i] == c)
+			i++;
+		if (str[i] != '\0' && str[i] != c && str[i] != 39 && str[i] != 34)
+		{
+			while (str[i] != '\0' && str[i] != c)
+				i++;
+			len++;
+		}
 	}
-}
-
-int		ft_count(t_list **data)
-{
-	int		i;
-	t_list	*tmp;
-	
-	i	= 0;
-	tmp = *data;
-	while(tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	return (i);
-}
-
-char	**ft_convert(t_list **data, int count)
-{
-	int		i;
-	t_list	*tmp;
-	char 	**env;
-
-	i 	= 0;
-	tmp = *data;
-	env = malloc(sizeof(char *) * (count + 1));
-	while(tmp)
-	{
-		env[i]	= tmp->name;
-		env[i] 	= ft_strjoin(env[i], "=");
-		env[i]	= ft_strjoin(env[i], tmp->value);
-		i++;
-		tmp = tmp->next;
-	}
-	env[i] = NULL;
-	return (env);
+	return (len);
 }

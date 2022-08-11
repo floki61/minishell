@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/08 12:44:04 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/11 05:11:18 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,21 +100,21 @@ int	check_exp(char *str)
 	str2 = ft_split(str,'=', 0);
     pos = n_position(str2[0], '!');
 			
-	write(1, "noooo",5);
+	write(1, "check_exp\n",10);
     if(pos == 1)
     {
         while(*str != '!')
             str++;
         printf("minishell: %s: event not found\n",str);
-        return (0);
+        return (2);
      }
 	else if(pos == 3)
 	{
 		printf("minishell: export: '%s': not a valid identifier\n",str);
-		return (0);
+		return (1);
 	}
 	if(!str2[1])
-		return(1);
+		return(0);
 	while(*str != '=')
 		str++;
 	pos = v_position(str, '!');
@@ -123,9 +123,9 @@ int	check_exp(char *str)
 		 while(*str != '!')
              str++;
 		 printf("minishell: %s: event not found\n",str);
-			return (0);
+			return (2);
 	}
-	return (1);
+	return (0);
 }
 
 void	ft_printenv(t_list *data)
@@ -168,26 +168,29 @@ void	ft_printenv(t_list *data)
 
 int    withoutsep(char *cmd, t_list    **data)
 {
+	int error;
     t_list *tmp;
 
     tmp = *data;
-    if(check_exp(cmd))
+	error = check_exp(cmd);
+	printf("error: %d\n",error);
+    if(!error)
 	{
         while(tmp)
         {
             if(ft_strcmp(tmp->name,cmd) == 0)
-                return (1);
+                return (0);
             tmp = tmp->next;
         }
 		printf("whitoutsep\n");
 		ft_lstadd_back(data,ft_lstnew(cmd, NULL, NULL));
-		return (1);
+		return (0);
 	}
 	else
-		return(0);
+		return(error);
 }
 
-void	*ft_export(char **cmd, t_list **data)
+int	ft_export(char **cmd, t_list **data)
 {
 	t_list *tmp;
 	char	**op;
@@ -195,6 +198,7 @@ void	*ft_export(char **cmd, t_list **data)
 	char 	*str;
 	int		i;
 	int		j;
+	int		sep;
 	
 	i = 1;
 	j = 0;
@@ -202,7 +206,7 @@ void	*ft_export(char **cmd, t_list **data)
 	if(!cmd[i] || cmd[i][0] == '#')
 	{
 		ft_printenv(*data);
-		return (0);
+		return (2);
 	}
 	while(cmd[i])
 	{
@@ -210,15 +214,18 @@ void	*ft_export(char **cmd, t_list **data)
 		tmp = *data;
 		while (!exist_sep(cmd[i]))
         {
-            if(!withoutsep(cmd[i],data))
-				return(0);
+			sep = withoutsep(cmd[i],data);
+			printf("sep: %d\n",sep);
+            if(sep)
+				return(sep);
 			if(!cmd[++i])
-				return (0);
+				return (2);
         }
-        if(!check_exp(cmd[i]))
-            return (0);
+		sep = check_exp(cmd[i]);
+        if(sep)
+            return (sep);
 		if(cmd[i][0] == '#')
-			return (0);
+			return (2);
 		op = ft_split(cmd[i], '=', 0);
 		if(op[0][ft_strlen(op[0]) - 1] == '+')
 		{
@@ -227,7 +234,6 @@ void	*ft_export(char **cmd, t_list **data)
 		}
 		while(tmp)
 		{
-			// printf("hey im here\n");
 			if(ft_strcmp(op[0],tmp->name) == 0)
 			{
 				value = cmd[i];
@@ -255,7 +261,7 @@ void	*ft_export(char **cmd, t_list **data)
 		}
 		i++;
 	}
-	return (0);
+	return (2);
 }
 
 // void	*ft_export(char **cmd, t_list **data)

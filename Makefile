@@ -2,6 +2,7 @@ NAME = minishell
 FLAGS = -Wall -Wextra -Werror -lreadline -L/Users/oel-berh/.brew/opt/readline/lib -I/Users/oel-berh/.brew/opt/readline/include
 
 SRCS =	main.c \
+		echo.c \
 		ft_split.c \
 		ft_strjoin.c \
 		path.c \
@@ -10,13 +11,16 @@ SRCS =	main.c \
 		execute.c \
 		parse.c \
 		builtins.c \
-		echo.c 		\
-		env.c 		\
-		export.c 	\
-		unset.c 	\
 		ft_dsigne.c \
 		advanced.c \
 		get_next_line.c \
+		ft_splito.c \
+		expand_tools.c \
+		tools2.c 		\
+		env.c \
+		export.c \
+		unset.c \
+		ft_itoa.c 	\
 
 all : $(NAME)
 
