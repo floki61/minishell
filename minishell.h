@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 14:02:33 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/13 17:43:59 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	ft_putstr_fd(char *s, int fd);
 int		is_alnum(int c);
 int		ifenv(t_cmd *cmd , t_list **data, char **path);
 int		ifexit(t_cmd *cmd);
-int		ft_cd(char **inpt, char **path);
+int		ft_cd(char **inpt, t_list **env);
 void	ft_envp(char **envp, t_list **data);
 int		printenvp(char **inpt, t_list **data);
 t_list	*ft_lstnew(void *name,void *value, void *sep);
@@ -151,7 +151,8 @@ void	ft_lstadd_back(t_list **alst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);
 int		ft_export(char **cmd, t_list **data);
 int		ft_unset(char **cmd, t_list **data);
-int		bult_2(char	**inpt, t_list **data, char **path);
+int		bult_2(char	**inpt, t_list **data);
 char	*ft_itoa(int n);
+int     v_position(char *str, char c);
 
 #endif

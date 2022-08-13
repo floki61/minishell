@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/11 19:28:00 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/11 21:29:06 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,12 +213,19 @@ int	ft_export(char **cmd, t_list **data)
 		ft_printenv(*data);
 		return (2);
 	}
+	int n =0;
+	while(cmd[n])
+	{
+		printf("cmd[%d]: %s\n",n,cmd[n]);
+		n++;
+	}
 	while(cmd[i])
 	{
 		j = 0;
 		tmp = *data;
 		while (!exist_sep(cmd[i]))
         {
+			printf("withoutsep\n");
 			sep = withoutsep(cmd[i],data);
 			printf("sep: %d\n",sep);
             if(sep)
