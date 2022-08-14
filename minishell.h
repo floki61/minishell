@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 17:43:59 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/13 23:39:25 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,5 +154,6 @@ int		ft_unset(char **cmd, t_list **data);
 int		bult_2(char	**inpt, t_list **data);
 char	*ft_itoa(int n);
 int     v_position(char *str, char c);
+char 	*skip_c(char *str, char c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/12 02:19:01 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/14 01:26:01 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	main(int ac, char **av, char **envp)
 	ft_envp(envp,&data);
 	while (1)
 	{
-		buf = readline("\e[0;31m.ᴍɪɴɪꜱʜᴇʟʟ\e[0m ");
+		// buf = readline("\e[0;31m.ᴍɪɴɪꜱʜᴇʟʟ\e[0m ");
+		buf = readline("\e[0;31mbash-3.2$ \e[0m ");
 		if (buf == NULL)
 			exit(0);
 		add_history(buf);

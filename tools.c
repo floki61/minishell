@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/09 13:55:09 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/13 23:48:31 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,11 @@ void	ft_skip_spaces(char *inpt, int *i)
 {
 	while (inpt[(*i)] != '\0' && ft_strchr(inpt[(*i)], " \t\n\f\v\r"))
 			(*i)++;
+}
+
+char *skip_c(char *str, char c)
+{
+	while(*str && *str != c)
+		str++;
+	return(str);
 }
