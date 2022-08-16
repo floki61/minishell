@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/15 02:12:07 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/15 04:11:31 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,6 @@ int	n_position(char *str, char c)
 				return (1);
 			return (2);
 		}
-		i++;
-	}
-	return (0);
-}
-
-int	exist_sep(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (1);
 		i++;
 	}
 	return (0);

@@ -6,13 +6,13 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 21:03:24 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 02:29:41 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	type_pipe(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
+void	type_pipe(t_cmd *cmd, t_tool *tools, t_list **data)
 {
 	int		p[2];
 	t_pipe	*pip;
@@ -28,7 +28,7 @@ void	type_pipe(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 		dup2(p[1], STDOUT_FILENO);
 		close(p[0]);
 		close(p[1]);
-		run_cmd(pip->left, path, tools, data);
+		run_cmd(pip->left, tools, data);
 		if (pip->left->type == EXEC)
 			exit (1);
 	}
@@ -39,7 +39,7 @@ void	type_pipe(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 		dup2(p[0], STDIN_FILENO);
 		close(p[0]);
 		close(p[1]);
-		run_cmd(pip->right, path, tools, data);
+		run_cmd(pip->right, tools, data);
 		if (pip->right->type == EXEC)
 			exit (1);
 	}
@@ -48,7 +48,7 @@ void	type_pipe(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 	wait(0);
 }
 
-void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
+void	type_exec(t_cmd *cmd,t_tool *tools, t_list **data)
 {
 	t_exec	*exe;
 	char	*buf;
@@ -61,7 +61,7 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 	exe = (t_exec *)cmd;
 	if (exe->args[0] == 0)
 		exit (1);
-	bult = if_builtins(exe->args, data, path);
+	bult = if_builtins(exe->args, data);
 	if (bult)
 	{
 		if(bult == 2)
@@ -93,7 +93,7 @@ void	type_exec(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 	execve(buf, exe->args, tools->envp);
 }
 
-void	type_redir(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
+void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data)
 {	
 	t_redir	*red;
 	t_redir	*red2;
@@ -126,7 +126,7 @@ void	type_redir(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
 				(tools->c) = 0;
 		}
 	}
-	run_cmd(red->exe, path, tools, data);
+	run_cmd(red->exe, tools, data);
 }
 
 void	heredoc(t_redir *red, t_tool *tools)

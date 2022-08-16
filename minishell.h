@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 23:39:25 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 02:30:35 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <limits.h>
 
 # define BLUE    "\e[0;34m"
 # define RED     "\e[0;31m"
@@ -111,9 +112,9 @@ int		get_token(char **ps, char **q);
 t_cmd	*parsecmd(char *str, t_list **env);
 t_cmd	*parsepipe(char	**ps, t_list **env, t_quote quote);
 t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote quote);
-void	run_cmd(t_cmd *cmd, char **path, t_tool *tools, t_list **data);
+void	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data);
 int		ft_strncmp(const char *first, const char *second, size_t length);
-int 	if_builtins(char **inpt, t_list **data, char **path);
+int 	if_builtins(char **inpt, t_list **data);
 void	ft_skip_spaces(char *inpt, int *i);
 char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x);
 char	*quotes(char *str, t_quote *quote);
@@ -135,13 +136,13 @@ char	*exdsigne(char *op, char **env);
 char	**forenv(char **env);
 int		exec_args(t_exec **exec, int i, char **ps);
 char	*corrected(char *line, char *str);
-void	type_pipe(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
-void	type_exec(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
-void	type_redir(t_cmd *cmd, char **envp, t_tool *tools, t_list **data);
+void	type_pipe(t_cmd *cmd,  t_tool *tools, t_list **data);
+void	type_exec(t_cmd *cmd,  t_tool *tools, t_list **data);
+void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data);
 void	heredoc(t_redir *red, t_tool *tools);
 void	ft_putstr_fd(char *s, int fd);
 int		is_alnum(int c);
-int		ifenv(t_cmd *cmd , t_list **data, char **path);
+int		ifenv(t_cmd *cmd , t_list **data);
 int		ifexit(t_cmd *cmd);
 int		ft_cd(char **inpt, t_list **env);
 void	ft_envp(char **envp, t_list **data);
@@ -155,5 +156,5 @@ int		bult_2(char	**inpt, t_list **data);
 char	*ft_itoa(int n);
 int     v_position(char *str, char c);
 char 	*skip_c(char *str, char c);
-
+int		ft_atoi(char *str);
 #endif

@@ -6,81 +6,68 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 04:34:11 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 18:37:38 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/15 03:44:39 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	echoprint(char **cmd, int i)
+static int	echoprint(char *str)
 {
-	char	*line;
-	int		n;
-
-	n = i;
-	line = NULL;
-	if (!cmd[i])
+	if (!str)
 		return (1);
-	while (cmd[i])
-	{	
-		line = ft_strjoin(line, cmd[i]);
-		if (cmd[++i])
-			line = ft_strjoin(line, " ");
-	}
-	printf("%s", line);
-	if (n == 1)
-		printf("\n");
+	printf("%s", str);
 	return (1);
 }
 
-int	ft_echo(char **cmd)
+char	*join(char **cmd, int i)
+{
+	char	*str;
+	int		j;
+
+	str = NULL;
+	j = i;
+	while (cmd[i])
+	{
+		str = ft_strjoin(str, cmd[i]);
+		if (cmd[++i])
+			str = ft_strjoin(str, " ");
+	}
+	if (j == 1)
+		str = ft_strjoin(str, "\n");
+	return (str);
+}
+
+char	*skeep_n(char **cmd)
 {
 	int	i;
 	int	n;
+	int	p;
 
 	i = 1;
-	if (!cmd[i])
-	{
-		printf("\n");
-		return (2);
-	}
 	while (cmd[i])
 	{
 		n = 0;
-		if (n == 0)
-		{
-			if (cmd[i][n] != '-')
-			{
-				if (echoprint(cmd, i))
-					return (2);
-			}
-			else
-				n++;
-		}
+		if ((n == 0 && cmd[i][n] != '-') || p == -1)
+			return (join(cmd, i));
+		n++;
 		while (cmd[i][n] == 'n')
 			n++;
 		if (ft_strlen(cmd[i]) == n)
 			i++;
 		else
-			if (echoprint(cmd, i))
-				return (2);
+			p = -1;
 	}
-	echoprint(cmd, i);
-	return (2);
+	return (NULL);
 }
 
-int	spaces_still(char *str)
+int	ft_echo(char **cmd)
 {
-	int	i;
-	int	spaces;
-
-	i = 0;
-	spaces = 0;
-	while (str[i])
+	if (!cmd[1])
 	{
-		if (str[i] == ' ')
-			spaces++;
-		i++;
+		printf("\n");
+		return (2);
 	}
-	return (spaces);
+	echoprint(skeep_n(cmd));
+	return (2);
 }

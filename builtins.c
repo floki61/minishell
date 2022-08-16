@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 18:35:37 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 02:26:49 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,36 @@ char	*findkey(char *key, t_list **env)
 	return (NULL);
 }
 
+int		home(t_list **env,t_list *tmp)
+{
+	findkey("OLDPWD", &tmp);
+	tmp->value = getcwd(NULL, 0);
+	tmp = *env;
+	chdir(findkey("HOME", &tmp));
+	return (2);
+}
+
+int		oldpwd(char *oldpath, t_list *tmp)
+{
+	oldpath = findkey("OLDPWD", &tmp);
+	tmp->value = getcwd(NULL, 0);
+	chdir(oldpath);
+	printf("~%s\n", oldpath);
+	return (2);
+}
+
+int		newpwd(char *fd, t_list *tmp)
+{
+	findkey("OLDPWD", &tmp);
+	tmp->value = getcwd(NULL, 0);
+	if (chdir(fd) < 0)
+	{
+		printf("cd: no such file or directory: %s\n", fd);
+		return (1);
+	}
+	return (2);
+}
+
 int	ft_cd(char **inpt, t_list **env)
 {
 	t_list	*tmp;
@@ -31,29 +61,10 @@ int	ft_cd(char **inpt, t_list **env)
 	oldpath = NULL;
 	tmp = *env;
 	if (!inpt[1])
-	{
-		findkey("OLDPWD", &tmp);
-		tmp->value = getcwd(NULL, 0);
-		tmp = *env;
-		chdir(findkey("HOME", &tmp));
-		return (2);
-	}
+		return(home(env,tmp));
 	if (!ft_strcmp(inpt[1], "-"))
-	{
-		oldpath = findkey("OLDPWD", &tmp);
-		tmp->value = getcwd(NULL, 0);
-		chdir(oldpath);
-		printf("~%s\n", oldpath);
-		return (2);
-	}
-	findkey("OLDPWD", &tmp);
-	tmp->value = getcwd(NULL, 0);
-	if (chdir(inpt[1]) < 0)
-	{
-		printf("cd: no such file or directory: %s\n", inpt[1]);
-		return (1);
-	}
-	return (2);
+		return(oldpwd(oldpath ,tmp));
+	return(newpwd(inpt[1], tmp));
 }
 
 int	ft_pwd(char **inpt)
@@ -103,11 +114,10 @@ int	bult_2(char	**inpt, t_list **data)
 	return (0);
 }
 
-int	if_builtins(char **inpt, t_list **data, char **path)
+int	if_builtins(char **inpt, t_list **data)
 {
 	int	status;
 
-	path = NULL;
 	status = bult_1(inpt);
 	if (status)
 		return (status);

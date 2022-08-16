@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 14:26:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 02:25:25 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,14 @@ char	*get_path(t_exec *exe, t_list **data)
 	return (0);
 }
 
-void	run_cmd(t_cmd *cmd, char **path, t_tool *tools, t_list **data)
+void	run_cmd(t_cmd *cmd,t_tool *tools, t_list **data)
 {
 	if (cmd == 0)
 		exit (1);
 	if (cmd->type == EXEC)
-		type_exec(cmd, path, tools, data);
+		type_exec(cmd, tools, data);
 	else if (cmd->type == PIPE)
-		type_pipe(cmd, path, tools, data);
+		type_pipe(cmd, tools, data);
 	else if (cmd->type == REDIR)
-		type_redir(cmd, path, tools, data);
+		type_redir(cmd, tools, data);
 }

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:50:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/13 18:40:23 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/15 04:10:39 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ void	ft_envp(char **envp, t_list	**data)
 		ft_lstadd_back(data, ft_lstnew(op[0], op[1], "="));
 		i++;
 	}
+	//free
 	return ;
 }

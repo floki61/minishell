@@ -5,6 +5,7 @@ SRCS =	main.c \
 		echo.c \
 		ft_split.c \
 		ft_strjoin.c \
+		ft_atoi.c 		\
 		path.c \
 		constructor.c \
 		tools.c \
