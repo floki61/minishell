@@ -6,11 +6,11 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:50:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/15 04:10:39 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 03:29:45 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_list	*ft_lstlast(t_list *lst)
 {
@@ -75,6 +75,6 @@ void	ft_envp(char **envp, t_list	**data)
 		ft_lstadd_back(data, ft_lstnew(op[0], op[1], "="));
 		i++;
 	}
-	//free
+	// free_tab(op);
 	return ;
 }

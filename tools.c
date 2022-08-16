@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 21:34:38 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/13 23:48:31 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 03:09:45 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,12 @@ void	ft_skip_spaces(char *inpt, int *i)
 			(*i)++;
 }
 
-char *skip_c(char *str, char c)
+int	ft_strcmp(char *s1, char *s2) 
 {
-	while(*str && *str != c)
-		str++;
-	return(str);
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
 }

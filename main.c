@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 02:25:02 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 03:48:50 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ int	main(int ac, char **av, char **envp)
 	ft_envp(envp,&data);
 	while (1)
 	{
-		buf = readline("\e[0;31m.ᴍɪɴɪꜱʜᴇʟʟ\e[0m ");
-		// buf = readline("minishell-$ \e[0m ");
+		buf = readline("minishell-$ \e[0m ");
 		if (buf == NULL)
 			exit(0);
 		add_history(buf);
@@ -116,15 +115,3 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (0);
 }
-
-// -600 + 256 = -344
-// -344 + 256 = -88
-// -88 + 256 = 168
-
-// exit: -9223372036854775809: numeric argument required
-// exit: 9223372036854775808: numeric argument required
-
-// segfault exit 922337203685477581
-
-// LLONG_MIN   -9223372036854775808
-// LLONG_MAX 	9223372036854775807

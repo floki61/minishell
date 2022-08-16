@@ -1,0 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   more_tools.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
+/*   Updated: 2022/08/16 03:28:53 by oel-berh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+char	*skip_c(char *str, char c)
+{
+	while (*str && *str != c)
+		str++;
+	return (str);
+}
+
+int	existkey(char *cmd, char **op, t_list **data, char c)
+{
+	t_list	*tmp;
+
+	tmp = *data;
+	while (tmp)
+	{
+		if (!ft_strcmp(op[0], tmp->name))
+		{
+			cmd = skip_c(cmd, '=');
+			if (!tmp->sep)
+				tmp->sep = "=";
+			if (c == '+')
+				tmp->value = ft_strjoin(tmp->value, ++cmd);
+			else
+				tmp->value = ++cmd;
+			// free_tab(op);
+			return (2);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+void	free_tab(char **path)
+{
+	int	i;
+
+	i = 0;
+	while (path[i])
+	{
+		free(path[i]);
+		i++;
+	}
+}

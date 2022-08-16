@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   more_tools.c                                       :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/16 02:47:44 by oel-berh         ###   ########.fr       */
+/*   Created: 2022/08/16 03:07:35 by oel-berh          #+#    #+#             */
+/*   Updated: 2022/08/16 03:24:39 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	fexit_status(char *str)
 {
@@ -85,28 +85,6 @@ int	ifexit(t_cmd	*cmd)
 			return (find_status(exe));
 		else
 			exit(0);
-	}
-	return (0);
-}
-
-int	ifenv(t_cmd *cmd, t_list	**data)
-{
-	t_exec	*exe;
-	int		bult;
-
-	if (cmd->type != EXEC)
-		return (0);
-	exe = (t_exec *)cmd;
-	if (exe->args[0] == 0)
-		return (0);
-	bult = bult_2(exe->args, data);
-	if (bult)
-	{
-		if (bult == 2)
-			exit_status = 0;
-		else
-			exit_status = bult;
-		return (bult);
 	}
 	return (0);
 }

@@ -6,11 +6,11 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:10:50 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/13 18:43:47 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 03:18:18 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	deletenode(t_list **head, char *name)
 {

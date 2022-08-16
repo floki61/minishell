@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/08 11:02:55 by sfarhan          ###   ########.fr       */
+/*   Created: 2021/11/19 07:41:41 by oel-berh          #+#    #+#             */
+/*   Updated: 2022/08/16 03:45:02 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	wd_count(const char *str, char c, int access)
 {
@@ -110,7 +110,7 @@ static char	*copy(int t, char const *s, char c, int access)
 	return (str);
 }
 
-char	**ft_split(char const *s, char c, int access)
+char	**ft_split(char	*s, char c, int access)
 {
 	int		i;
 	int		j;

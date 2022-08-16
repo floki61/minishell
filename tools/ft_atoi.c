@@ -6,11 +6,11 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 05:23:25 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/16 01:51:14 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 03:32:48 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ftskip(char *str)
 {

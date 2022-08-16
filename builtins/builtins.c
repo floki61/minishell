@@ -6,66 +6,11 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 02:26:49 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 03:17:21 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-char	*findkey(char *key, t_list **env)
-{
-	while (*env)
-	{
-		if (!ft_strcmp((*env)->name, key))
-			return ((*env)->value);
-		(*env) = (*env)->next;
-	}
-	return (NULL);
-}
-
-int		home(t_list **env,t_list *tmp)
-{
-	findkey("OLDPWD", &tmp);
-	tmp->value = getcwd(NULL, 0);
-	tmp = *env;
-	chdir(findkey("HOME", &tmp));
-	return (2);
-}
-
-int		oldpwd(char *oldpath, t_list *tmp)
-{
-	oldpath = findkey("OLDPWD", &tmp);
-	tmp->value = getcwd(NULL, 0);
-	chdir(oldpath);
-	printf("~%s\n", oldpath);
-	return (2);
-}
-
-int		newpwd(char *fd, t_list *tmp)
-{
-	findkey("OLDPWD", &tmp);
-	tmp->value = getcwd(NULL, 0);
-	if (chdir(fd) < 0)
-	{
-		printf("cd: no such file or directory: %s\n", fd);
-		return (1);
-	}
-	return (2);
-}
-
-int	ft_cd(char **inpt, t_list **env)
-{
-	t_list	*tmp;
-	char	*oldpath;
-
-	oldpath = NULL;
-	tmp = *env;
-	if (!inpt[1])
-		return(home(env,tmp));
-	if (!ft_strcmp(inpt[1], "-"))
-		return(oldpwd(oldpath ,tmp));
-	return(newpwd(inpt[1], tmp));
-}
+#include "../minishell.h"
 
 int	ft_pwd(char **inpt)
 {
@@ -126,6 +71,28 @@ int	if_builtins(char **inpt, t_list **data)
 		status = bult_2(inpt, data);
 		if (status)
 			return (status);
+	}
+	return (0);
+}
+
+int	ifenv(t_cmd *cmd, t_list	**data)
+{
+	t_exec	*exe;
+	int		bult;
+
+	if (cmd->type != EXEC)
+		return (0);
+	exe = (t_exec *)cmd;
+	if (exe->args[0] == 0)
+		return (0);
+	bult = bult_2(exe->args, data);
+	if (bult)
+	{
+		if (bult == 2)
+			exit_status = 0;
+		else
+			exit_status = bult;
+		return (bult);
 	}
 	return (0);
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splito.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 03:18:44 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/07 16:49:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/16 03:43:03 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	count(const char *str, char c)
 {
@@ -35,7 +35,7 @@ static int	count(const char *str, char c)
 	return (len);
 }
 
-static int	ft_test(const char *str, int i, char c)
+static int	ft_second(const char *str, int i, char c)
 {
 	int		cnt;
 	char	*s;
@@ -50,47 +50,52 @@ static int	ft_test(const char *str, int i, char c)
 	return (cnt);
 }
 
-static char	*copy(int t, char const *s, char c)
+static char	**set_array(char const *s, char c, int i, char **tab)
 {
-	int		j;
-	int		len ;
-	char	*str;
+	int	k;
+	int	j;
 
+	k = 0;
 	j = 0;
-	len = ft_test(s, t, c);
-	str = (char *)malloc(sizeof (char) * len + 1);
-	if (!str)
-		return (NULL);
-	while (j < len && s[t] != c)
+	while (s[i])
 	{
-		str[j] = (char)s[t];
-		j++;
-		t++;
+		k = 0;
+		if (s[i] == c)
+			i++;
+		else if (s[i] != c)
+		{
+			tab[j] = malloc(ft_second(s, i, c) + 1);
+			if (!tab[j])
+				return (NULL);
+			while (s[i] != c && s[i])
+			{
+				tab[j][k++] = s[i];
+				i++;
+			}
+			tab[j++][k] = '\0';
+		}
 	}
-	str[j] = '\0';
-	return (str);
+	tab[j] = NULL;
+	return (tab);
 }
 
 char	**ft_splito(char const *s, char c)
 {
 	int		i;
-	int		j;
 	char	**tab;
 
 	tab = NULL;
 	i = 0;
-	j = 0;
+	if (!s)
+		return (NULL);
+	if (c == '\0' || count(s, c) == 0)
+	{
+		tab = malloc(1 * sizeof(char *));
+		tab[0] = NULL;
+		return (tab);
+	}
 	tab = malloc(sizeof(char *) * (count(s, c) + 1));
 	if (!tab)
 		return (NULL);
-	while (j < count(s, c))
-	{
-		while (s[i] == c)
-			i++;
-		tab[j] = copy(i, s, c);
-		i += ft_test(s, i, c);
-		j++;
-	}
-	tab[j] = 0;
-	return (tab);
+	return (set_array(s, c, i, tab));
 }

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 02:30:35 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/16 03:46:11 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*clean(char *str);
 int		ft_limites(char *str);
 t_cmd	*end_it(t_cmd *cmd);
 char	*ft_strjoin(char *s1, char *s2);
-char	**ft_split(char const *s, char c, int access);
+char	**ft_split(char	*s, char c, int access);
 char	**ft_advanced(char const *s, char *buf);
 char	*get_path(t_exec *exe, t_list **data);
 int		lets_check(char *str);
@@ -132,8 +132,6 @@ int		num_quotes(const char *str, char c);
 void	accountant(char **str, int i, int *dollar);
 char	**cashier(char *str);
 char	*after_world(char *str);
-char	*exdsigne(char *op, char **env);
-char	**forenv(char **env);
 int		exec_args(t_exec **exec, int i, char **ps);
 char	*corrected(char *line, char *str);
 void	type_pipe(t_cmd *cmd,  t_tool *tools, t_list **data);
@@ -157,4 +155,8 @@ char	*ft_itoa(int n);
 int     v_position(char *str, char c);
 char 	*skip_c(char *str, char c);
 int		ft_atoi(char *str);
+int		existkey(char *cmd, char **op, t_list **data, char c);
+int		check_exp(char *str);
+void	print_exp(t_list *data);
+void	free_tab(char **path);
 #endif
