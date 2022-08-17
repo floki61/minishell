@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 15:54:56 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/17 04:17:40 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ t_cmd	*parsecmd(char *str, t_list **env)
 	quote.quote[x] = 0;
 	if (str[0] == '|')
 	{
-		printf ("minishell: syntax error near unexpected token '|'\n");
+		fperror(" ", "syntax error near unexpected token '|'\n");
 		exit (0);
+		//exit 258;
 	}
 	str = quotes(str, &quote);
 	str = ft_path(str);

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 02:25:25 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/17 04:11:08 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*get_cmd(t_exec *exe, char *path)
 		if (access(cmd[j], F_OK) != -1)
 			return (cmd[j]);
 	}
-	printf ("minishell: %s: command not found\n", exe->args[0]);
+	fperror(exe->args[0], ": command not found\n");
 	exit (127);
 }
 
@@ -85,14 +85,12 @@ char	*get_path(t_exec *exe, t_list **data)
 	tmp = *data;
 	while (tmp)
 	{
-		if (tmp->name[0] == 'P')
-		{
-			if (ft_strncmp(tmp->name, "PATH", 4) == 0)
+			if (!ft_strcmp(tmp->name, "PATH"))
 				return (get_cmd(exe, tmp->value));
-		}
 		tmp = tmp->next;
 	}
-	return (0);
+	fperror(exe->args[0], ": No such file or directory\n");
+	exit (127);
 }
 
 void	run_cmd(t_cmd *cmd,t_tool *tools, t_list **data)

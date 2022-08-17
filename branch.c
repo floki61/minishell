@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 02:29:41 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/17 03:54:04 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	type_exec(t_cmd *cmd,t_tool *tools, t_list **data)
 			exit(0);
 		exit(bult);
 	}
-	//printf("hello\n");
 	buf = get_path(exe, data);
 	if (tools->limiter != NULL)
 	{

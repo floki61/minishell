@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/16 03:28:53 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/17 04:26:15 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,11 @@ void	free_tab(char **path)
 		free(path[i]);
 		i++;
 	}
+}
+
+void	fperror(char *arg, char *error)
+{
+	write(2, "minishell: ", 11);
+	write(2, arg, ft_strlen(arg));
+	write(2, error, ft_strlen(error));
 }

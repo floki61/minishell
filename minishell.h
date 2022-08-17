@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 03:46:11 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/17 04:10:26 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,5 @@ int		existkey(char *cmd, char **op, t_list **data, char c);
 int		check_exp(char *str);
 void	print_exp(t_list *data);
 void	free_tab(char **path);
+void	fperror(char *arg, char *error);
 #endif

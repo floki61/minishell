@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 03:17:21 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/17 04:21:16 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ int	ft_pwd(char **inpt)
 	n = 0;
 	while (inpt[i])
 	{
-		if (v_position(inpt[i], '!') == 1)
+		if (v_position(inpt[i], '!') == 2)
 		{
 			while (*inpt[i] != '!')
 				inpt[i]++;
-			printf("minishell: %s: event not found\n", inpt[i]);
+			fperror(inpt[i], ":event not found\n");
 			return (2);
 		}
 		i++;
 	}
 	cwd = getcwd(NULL, 0);
-	printf("pwd=%s\n", cwd);
+	printf("%s\n", cwd);
 	return (2);
 }
 
