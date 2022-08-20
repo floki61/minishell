@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 07:41:41 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/16 03:45:02 by oel-berh         ###   ########.fr       */
+/*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
+/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	no_quote(const char *str, int i, char c)
+{
+	while (str[i] != '\0' && str[i] != c)
+	{
+		if (str[i] == 1)
+		{
+			i++;
+			while (str[i] && !(str[i] == 1))
+				i++;
+			if (str[i])
+				i++;
+		}
+		else
+			i++;
+	}
+	return (i);
+}
 
 int	wd_count(const char *str, char c, int access)
 {
@@ -25,19 +43,14 @@ int	wd_count(const char *str, char c, int access)
 	{
 		if (str[i] == 1 && access == 1)
 		{
-			i++;
-			while (str[i] != '\0' && !((str[i] == 1 && str[i + 1] == ' ')))
-				i++;
-			if (str[i])
-				i++;
+			if_quote(str, &i);
 			len++;
 		}
 		while (str[i] == c)
 			i++;
 		if (str[i] != '\0' && str[i] != c && str[i] != 1)
 		{
-			while (str[i] != '\0' && str[i] != c)
-				i++;
+			i = no_quote(str, i, c);
 			len++;
 		}
 	}
@@ -46,71 +59,50 @@ int	wd_count(const char *str, char c, int access)
 
 static int	ft_test(const char *str, int i, char c, int access)
 {
-	int		cnt;
 	char	*s;
+	int		len;
 
+	len = i;
 	s = (char *)str;
-	cnt = 0;
-	if (s[i] == 1 && access == 1)
-	{
-		i++;
-		while (s[i] && !((s[i] == 1 && s[i + 1] == ' ')))
-		{
-			i++;
-			cnt++;
-		}
-		if (s[i])
-			i++;
-	}
+	if (s[i] == 1)
+		if_quote(str, &i);
 	else
 	{
 		while (s[i] && (s[i] != c))
 		{
-			i++;
-			cnt++;
+			if (s[i] == 1)
+				i = no_quote(str, i, c);
+			else
+				i++;
 		}
 	}
+	if (access == 1)
+		return (i - len);
 	return (i);
 }
 
-static char	*copy(int t, char const *s, char c, int access)
+static char	*copy(int t, char const *s, char c)
 {
-	int		j;
-	int		len ;
-	char	*str;
+	int			j;
+	int			len;
+	char		*str;
 
 	j = 0;
-	len = ft_test(s, t, c, access);
+	len = ft_test(s, t, c, 1);
 	str = (char *)malloc(sizeof (char) * len + 1);
 	if (!str)
 		return (NULL);
-	if (s[t] == 1 && access == 1)
+	while (j < len)
 	{
-		if (s[t] && s[t] == 1)
-			t++;
-		while (j < len && !((s[t] == 1 && s[t + 1] == ' ')))
-		{
-			str[j] = (char)s[t];
-			j++;
-			t++;
-		}
-		if (s[t])
-			t++;
-	}
-	else
-	{
-		while (j < len && (s[t] != c))
-		{
-			str[j] = (char)s[t];
-			j++;
-			t++;
-		}
+		str[j] = (char)s[t];
+		j++;
+		t++;
 	}
 	str[j] = '\0';
 	return (str);
 }
 
-char	**ft_split(char	*s, char c, int access)
+char	**ft_split(char const *s, char c, int access)
 {
 	int		i;
 	int		j;
@@ -128,8 +120,8 @@ char	**ft_split(char	*s, char c, int access)
 	{
 		while (s[i] == c)
 			i++;
-		tab[j] = copy(i, s, c, access);
-		i = ft_test(s, i, c, access);
+		tab[j] = copy(i, s, c);
+		i = ft_test(s, i, c, 0);
 		j++;
 	}
 	tab[j] = 0;

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/17 04:26:15 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/20 04:26:02 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,12 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 				tmp->value = ft_strjoin(tmp->value, ++cmd);
 			else
 				tmp->value = ++cmd;
-			// free_tab(op);
+			free_tab(op, 0);
 			return (2);
 		}
 		tmp = tmp->next;
 	}
 	return (0);
-}
-
-void	free_tab(char **path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i])
-	{
-		free(path[i]);
-		i++;
-	}
 }
 
 void	fperror(char *arg, char *error)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dsigne.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/16 03:46:15 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	accountant(char **str, int i, int *dollar)
 {
@@ -34,7 +34,7 @@ void	accountant(char **str, int i, int *dollar)
 		}
 		if ((*dollar) == 1 && (s[i] == ' ' || s[i] == '\0'))
 			s[i - 1] = 3;
-		(*dollar) = 0;		// if u found a $ and after there is a space or none make it 3 then if u found 3 make it dollar ;)
+		(*dollar) = 0;
 	}
 }
 
@@ -46,7 +46,6 @@ char	**cashier(char *str)
 	int		dollar;
 
 	i = 0;
-	j = 0;
 	dollar = 0;
 	words = ft_splito(str, 1);
 	while (words[i])
@@ -64,6 +63,7 @@ char	**cashier(char *str)
 		}
 		i++;
 	}
+	free (str);
 	return (words);
 }
 
@@ -89,11 +89,7 @@ char	*after_world(char *str)
 	quote = malloc (sizeof(char) * (len + 1));
 	len = 0;
 	while (str[i])
-	{
-		quote[len] = str[i];
-		i++;
-		len++;
-	}
+		quote[len++] = str[i++];
 	quote[len] = '\0';
 	return (quote);
 }

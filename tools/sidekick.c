@@ -6,11 +6,11 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 21:12:21 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 12:38:44 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_strchr(char s, char *scan)
 {
@@ -63,4 +63,16 @@ int	is_alnum(int c)
 		|| (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
+}
+
+void	next_quote(char *str, int *i, int *x, int tmp)
+{
+	if (str[(*i)] == ' ' || str[(*i)] == 34 || str[(*i)] == 39)
+	{
+		if (tmp + 2 == (*i))
+			(*x)--;
+		(*x)++;
+		if (str[(*i)] == ' ')
+			(*i)++;
+	}
 }

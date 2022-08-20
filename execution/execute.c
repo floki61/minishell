@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/17 04:11:08 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/18 23:14:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	followed(char *s, int *i)
 {
@@ -62,41 +62,46 @@ static char	*get_cmd(t_exec *exe, char *path)
 	char	**cmd;
 
 	j = -1;
-	cmd = ft_split(path, ':', 0);
+	cmd = ft_splito(path, ':');
 	if (access(exe->args[0], F_OK | X_OK) != -1)
 		return (exe->args[0]);
 	while (cmd[++j])
 	{
 		cmd[j] = ft_strjoin(cmd[j], "/");
 		cmd[j] = ft_strjoin(cmd[j], exe->args[0]);
-		if (access(cmd[j], F_OK) != -1)
+		if (ft_strcmp(cmd[j], "/usr/local/bin/") == 0)
+			break ;
+		if (access(cmd[j], F_OK | X_OK) != -1)
 			return (cmd[j]);
 	}
 	fperror(exe->args[0], ": command not found\n");
+	if (cmd && cmd[j] && ft_strcmp(cmd[j], "/usr/local/bin/") != 0)
+		free (exe->args[0]);
 	exit (127);
 }
 
 char	*get_path(t_exec *exe, t_list **data)
 {
-	int		i;
 	t_list	*tmp;
 
-	i = -1;
 	tmp = *data;
 	while (tmp)
 	{
-			if (!ft_strcmp(tmp->name, "PATH"))
+		if (tmp->name[0] == 'P')
+		{
+			if (ft_strncmp(tmp->name, "PATH", 4) == 0)
 				return (get_cmd(exe, tmp->value));
+		}
 		tmp = tmp->next;
 	}
 	fperror(exe->args[0], ": No such file or directory\n");
-	exit (127);
+	return (NULL);
 }
 
-void	run_cmd(t_cmd *cmd,t_tool *tools, t_list **data)
+void	run_cmd(t_cmd *cmd, t_tool *tools, t_list **data)
 {
 	if (cmd == 0)
-		exit (1);
+		exit (255);
 	if (cmd->type == EXEC)
 		type_exec(cmd, tools, data);
 	else if (cmd->type == PIPE)

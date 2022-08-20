@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/17 04:21:16 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/18 23:02:40 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,13 @@ int	if_builtins(char **inpt, t_list **data)
 	return (0);
 }
 
-int	ifenv(t_cmd *cmd, t_list	**data)
+int	ifenv(t_cmd *cmd, t_list **data)
 {
 	t_exec	*exe;
 	int		bult;
 
+	if (cmd == 0)
+		return (0);
 	if (cmd->type != EXEC)
 		return (0);
 	exe = (t_exec *)cmd;
@@ -89,9 +91,9 @@ int	ifenv(t_cmd *cmd, t_list	**data)
 	if (bult)
 	{
 		if (bult == 2)
-			exit_status = 0;
+			g_exit_status = 0;
 		else
-			exit_status = bult;
+			g_exit_status = bult;
 		return (bult);
 	}
 	return (0);

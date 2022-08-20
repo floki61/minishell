@@ -6,17 +6,28 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/16 03:11:11 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/20 04:33:04 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-static int	measure(char *line, int j, int *count)
+void	free_tab(char **path, int i)
 {
-	int	i;
+	if(!path)
+		return ;
+	while (path[i])
+	{
+		free(path[i]);
+		i++;
+	}
+	free (path);
+}
 
-	i = j;
+static int	measure(char *line, int i, int *count)
+{
+	char	quote;
+
 	if (ft_strchr(line[0], "<>") == 1)
 	{
 		if (ft_limites(&line[i]) == 2 && line[i + 2] != ' ')
@@ -26,13 +37,34 @@ static int	measure(char *line, int j, int *count)
 		while (line[i] && ft_strchr(line[i], "<>"))
 			i++;
 	}
-	if (line[i] == 1)
+	if (line[i] == 34 || line[i] == 39)
 	{
+		quote = line[i];
 		i++;
-		while (line[i] && !(line[i] == 1 && ft_strchr(line[i + 1], "|<>")))
+		while (line[i] && !(line[i] == quote && ft_strchr(line[i + 1], "|<> ")))
 			i++;
 		if (line[i])
 			i++;
+	}
+	return (i);
+}
+
+static int	spaces_needed(char *line, int i, int *count)
+{
+	if (ft_limites(&line[i]) == 1)
+	{
+		if (line[i - 1] != ' ')
+			(*count)++;
+		if (line[i + 1] != ' ')
+			(*count)++;
+	}
+	else if (ft_limites(&line[i]) == 2)
+	{
+		if (line[i - 1] != ' ' && line[i - 1] != '|')
+			(*count)++;
+		if (line[i + 2] != ' ')
+			(*count)++;
+		i++;
 	}
 	return (i);
 }
@@ -47,31 +79,17 @@ char	*ft_path(char *line)
 	count = 0;
 	while (line[i])
 	{
-		if ((i == 0 && ft_strchr(line[i], "<>") == 1) || line[i] == 1)
-			i += measure(line, i, &count);
+		if ((i == 0 && ft_strchr(line[i], "<>") == 1)
+			|| line[i] == 34 || line[i] == 39)
+			i = measure(line, i, &count);
 		if (ft_strchr(line[i], "|<>"))
-		{
-			if (ft_limites(&line[i]) == 1)
-			{
-				if (line[i - 1] != ' ')
-					count++;
-				if (line[i + 1] != ' ')
-					count++;
-			}
-			else if (ft_limites(&line[i]) == 2)
-			{
-				if (line[i - 1] != ' ' && line[i - 1] != '|')
-					count++;
-				if (line[i + 2] != ' ')
-					count++;
-				i++;
-			}
-		}
-		i++;
+			i = spaces_needed(line, i, &count);
+		if (line[i])
+			i++;
 	}
 	if (count > 0)
 	{
-		str = malloc(sizeof(char) * (ft_strlen(line) + (count * 2)));
+		str = malloc(sizeof(char) * (ft_strlen(line) + (count) + 1));
 		return (corrected(line, str));
 	}
 	return (line);

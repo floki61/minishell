@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:50:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/16 03:29:45 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/18 20:54:04 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_envp(char **envp, t_list	**data)
 		op = ft_split(envp[i], '=', 0);
 		ft_lstadd_back(data, ft_lstnew(op[0], op[1], "="));
 		i++;
+		free (op);
 	}
-	// free_tab(op);
 	return ;
 }

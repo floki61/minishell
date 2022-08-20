@@ -6,11 +6,11 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/10 12:05:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_cmd	*piping(t_cmd *left, t_cmd *right)
 {
@@ -54,4 +54,51 @@ t_cmd	*exelior(char *s)
 	}
 	cmd->args[i] = 0;
 	return ((t_cmd *)cmd);
+}
+
+static int	free_exe(t_cmd *cmd)
+{
+	int		i;
+	t_exec	*exe;
+
+	i = 0;
+	exe = (t_exec *)cmd;
+	if (exe->args[0] == 0)
+	{
+		free (exe);
+		return (1);
+	}
+	if (g_exit_status == 127)
+		i++;
+	free_tab(exe->args, i);
+	free (exe);
+	return (0);
+}
+
+void	free_struct(t_cmd *cmd)
+{
+	t_redir	*red;
+	t_pipe	*pip;
+
+	if (cmd == 0)
+		return ;
+	if (cmd->type == EXEC)
+	{
+		if (free_exe(cmd) == 1)
+			return ;
+	}
+	else if (cmd->type == PIPE)
+	{
+		pip = (t_pipe *)cmd;
+		free_struct(pip->left);
+		free_struct(pip->right);
+		free (pip);
+	}
+	else if (cmd->type == REDIR)
+	{
+		red = (t_redir *)cmd;
+		free (red->file);
+		free_struct(red->exe);
+		free (red);
+	}
 }

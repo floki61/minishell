@@ -6,38 +6,44 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/11 15:05:51 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/18 23:22:34 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-static char	*assigning(char *more, char *end, t_list **env, int *thief)
+char	*assigning(char *more, char *end, t_list **env, int *thief)
 {
 	int		i;
-	t_list *tmp;
+	t_list	*tmp;
 	char	*dollar;
+	char	*garbage;
 
 	i = 0;
 	tmp = *env;
 	dollar = NULL;
-	if(ft_strcmp(more, ft_strjoin("?", end)) == 0)
+	garbage = ft_strjoin("?", end);
+	if (ft_strcmp(more, garbage) == 0)
 	{
-		dollar = ft_itoa(exit_status);
-		end = NULL;
+		dollar = ft_itoa(g_exit_status);
+		free (garbage);
 		return (dollar);
 	}
+	free (garbage);
 	while (tmp)
 	{
-		if (ft_strcmp(more, ft_strjoin(tmp->name, end)) == 0)
+		garbage = ft_strjoin(tmp->name, end);
+		if (ft_strcmp(more, garbage) == 0)
 		{
 			dollar = tmp->value;
 			end = NULL;
+			free (garbage);
 			break ;
 		}
 		tmp = tmp->next;
 		if (tmp == NULL)
 			(*thief) = 1;
+		free (garbage);
 	}
 	return (dollar);
 }
@@ -53,24 +59,11 @@ static char	*edges(char *more, t_list **env)
 	end = after_world(more);
 	dollar = assigning(more, end, env, &thief);
 	if (dollar && thief != 1)
-		dollar = ft_strjoin(dollar, after_world(more));
+		dollar = ft_strjoin(dollar, end);
 	else if (thief == 1)
 		dollar = "";
+	free (end);
 	return (dollar);
-}
-
-static char	*undo(char *str, int c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			str[i] = '$';
-		i++;
-	}
-	return (str);
 }
 
 static void	expand(char **assign, t_list **env, char *var)
@@ -78,22 +71,15 @@ static void	expand(char **assign, t_list **env, char *var)
 	char	*dollar;
 	char	**more;
 	int		y;
-	int		i;
 
 	y = 0;
-	i = 0;
 	while (var[y])
 	{
 		if (var[y] == '$')
 			break ;
 		y++;
 	}
-	more = ft_splito(var, '$');
-	while (more[i])
-	{
-		more[i] = undo(more[i], 3);
-		i++;
-	}
+	more = dq_undo(var);
 	if (y > 0)
 	{
 		(*assign) = ft_strjoin((*assign), more[0]);
@@ -102,39 +88,36 @@ static void	expand(char **assign, t_list **env, char *var)
 	while (more[y])
 	{
 		dollar = edges(more[y], env);
+		printf ("p => %p\n", (*assign));
 		if (dollar)
 			(*assign) = ft_strjoin((*assign), dollar);
-		dollar = NULL;
+		free (dollar);
 		y++;
 	}
+	free_tab(more, 0);
 }
 
-char	*if_dsigne(char *inpt, t_list **env, t_quote quote, int *x)
+char	*if_dsigne(char *inpt, t_list **env, t_quote *quote)
 {
 	char	*assign;
-	char	sign[1];
 	char	**var;
 	int		j;
 
 	j = 0;
-	sign[0] = 2;
-	assign = NULL;
+	assign = "";
 	var = cashier(inpt);
 	while (var[j])
 	{
-		if (quote.quote[(*x)] == 1)
+		if (quote->quote[(quote->x)] != 2)
 			expand(&assign, env, var[j]);
 		else
 		{
-			if (ft_skip(var[j], sign))
-			{
-				var[j] = undo(var[j], 3);
-				var[j] = undo(var[j], 2);
-			}
+			var[j] = sq_undo(var[j]);
 			assign = ft_strjoin(assign, var[j]);
 		}
-		(*x)++;
+		(quote->x)++;
 		j++;
 	}
+	free_tab (var, 0);
 	return (assign);
 }
