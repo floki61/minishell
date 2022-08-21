@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/20 04:21:15 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 04:50:48 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct t_cmd
 typedef struct t_tool
 {
 	char	*limiter;
+	char	*path;
 	char	**envp;
 	int		in;
 	int		out;
@@ -183,5 +184,6 @@ void	fperror(char *arg, char *error);
 char	*ft_itoa(int n);
 char	*findkey(char *key, t_list **env);
 int		ft_pwd(char **inpt);
+char	*ft_strdup(const char *src);
 
 #endif

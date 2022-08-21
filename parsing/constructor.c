@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/20 23:50:46 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ static int	free_exe(t_cmd *cmd)
 	exe = (t_exec *)cmd;
 	if (exe->args[0] == 0)
 	{
+		free (exe->args);
 		free (exe);
 		return (1);
 	}
-	if (g_exit_status == 127)
+	if (g_exit_status == 7)
 		i++;
 	free_tab(exe->args, i);
 	free (exe);

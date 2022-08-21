@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:53:39 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/18 20:55:03 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 04:32:35 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*findkey(char *key, t_list **env)
 int	home(t_list **env, t_list *tmp)
 {
 	findkey("OLDPWD", &tmp);
+	free(tmp->value);
 	tmp->value = getcwd(NULL, 0);
 	tmp = *env;
 	if (chdir(findkey("HOME", &tmp)) == -1)
@@ -44,6 +45,7 @@ int	oldpwd(char *oldpath, t_list *tmp)
 		fperror("cd", ": OLDPWD not set\n");
 		return (1);
 	}
+	free(tmp->value);
 	tmp->value = getcwd(NULL, 0);
 	chdir (oldpath);
 	printf ("%s\n", oldpath);
@@ -53,6 +55,7 @@ int	oldpwd(char *oldpath, t_list *tmp)
 int	newpwd(char *fd, t_list *tmp)
 {
 	findkey("OLDPWD", &tmp);
+	free(tmp->value);
 	tmp->value = getcwd(NULL, 0);
 	if (chdir(fd) < 0)
 	{

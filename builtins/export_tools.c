@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 03:08:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/20 04:23:59 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 04:50:16 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,14 @@ int	n_position(char *str, char c)
 	return (0);
 }
 
-int	export_error(char **str2, char *str, int error)
+int	export_error(char *str, char **buf, int error)
 {
+	if (buf)
+		free_tab(buf, 0);
 	if (error == 2)
 		printf("minishell: %s: event not found\n", str);
 	else
 		printf("minishell: export: '%s': not a valid identifier\n", str);
-	free_tab(str2, 0);
 	return (error);
 }
 
@@ -86,21 +87,21 @@ int	check_exp(char *str)
 	char	**str2;
 	int		pos;
 
-	str2 = 	NULL;
+	str2 = NULL;
 	if (!ft_strcmp(str, "="))
-		return (export_error(str2, str, 1));
+		return (export_error(str, str2, 1));
 	if (str[0] == '#')
 		return (2);
 	else if (str[0] == '=')
-		return (export_error(str2, str, 1));
+		return (export_error(str, str2, 1));
 	str2 = ft_split(str, '=', 0);
 	pos = n_position(str2[0], '!');
 	if (pos == -1 && !str2[1])
-		return (export_error(str2, str, 1));
+		return (export_error(str, str2, 1));
 	if (pos == 1)
-		return (export_error(str2, str, 1));
+		return (export_error(str, str2, 1));
 	else if (pos == 2)
-		return (export_error(str2, skip_c(str, '!'), 2));
+		return (export_error(skip_c(str, '!'), str2,  2));
 	if (!str2[1])
 	{
 		free_tab(str2, 0);
@@ -108,7 +109,7 @@ int	check_exp(char *str)
 	}
 	str = skip_c(str, '=');
 	if (v_position(str, '!'))
-		return (export_error(str2, skip_c(str, '!'), 2));
+		return (export_error(skip_c(str, '!'), str2, 2));
 	free_tab(str2, 0);
 	return (0);
 }

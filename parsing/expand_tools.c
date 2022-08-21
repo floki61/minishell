@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 23:22:34 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/20 19:54:12 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*assigning(char *more, char *end, t_list **env, int *thief)
 	{
 		dollar = ft_itoa(g_exit_status);
 		free (garbage);
+		(*thief) = 2;
 		return (dollar);
 	}
 	free (garbage);
@@ -52,14 +53,21 @@ static char	*edges(char *more, t_list **env)
 {
 	char	*end;
 	char	*dollar;
+	char	*garbage;
 	int		thief;
 
 	end = NULL;
+	garbage = NULL;
 	thief = 0;
 	end = after_world(more);
 	dollar = assigning(more, end, env, &thief);
 	if (dollar && thief != 1)
-		dollar = ft_strjoin(dollar, end);
+	{
+		garbage = ft_strjoin(dollar, end);
+		if (thief == 2)
+			free (dollar);
+		dollar = garbage;
+	}
 	else if (thief == 1)
 		dollar = "";
 	free (end);
@@ -70,9 +78,11 @@ static void	expand(char **assign, t_list **env, char *var)
 {
 	char	*dollar;
 	char	**more;
+	char	*garbage;
 	int		y;
 
 	y = 0;
+	garbage = NULL;
 	while (var[y])
 	{
 		if (var[y] == '$')
@@ -82,16 +92,21 @@ static void	expand(char **assign, t_list **env, char *var)
 	more = dq_undo(var);
 	if (y > 0)
 	{
-		(*assign) = ft_strjoin((*assign), more[0]);
+		(*assign) = ft_strjoin(NULL, more[0]);
 		y = 1;
 	}
 	while (more[y])
 	{
 		dollar = edges(more[y], env);
-		printf ("p => %p\n", (*assign));
 		if (dollar)
-			(*assign) = ft_strjoin((*assign), dollar);
-		free (dollar);
+		{
+			garbage = ft_strjoin((*assign), dollar);
+			if (ft_strlen(*assign) != 0)
+				free (*assign);
+			(*assign) = garbage;
+			if (ft_strlen(dollar) != 0)
+				free (dollar);
+		}
 		y++;
 	}
 	free_tab(more, 0);
@@ -106,6 +121,8 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote *quote)
 	j = 0;
 	assign = "";
 	var = cashier(inpt);
+	if (ft_strlen(*var) == 0)
+		g_exit_status = 7;
 	while (var[j])
 	{
 		if (quote->quote[(quote->x)] != 2)

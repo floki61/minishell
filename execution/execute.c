@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 23:14:52 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 04:50:31 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,14 @@ static char	*get_cmd(t_exec *exe, char *path)
 		cmd[j] = ft_strjoin(cmd[j], "/");
 		cmd[j] = ft_strjoin(cmd[j], exe->args[0]);
 		if (ft_strcmp(cmd[j], "/usr/local/bin/") == 0)
-			break ;
+		{
+			fperror(exe->args[0], ": command not found\n");
+			exit (127) ;
+		}
 		if (access(cmd[j], F_OK | X_OK) != -1)
 			return (cmd[j]);
 	}
 	fperror(exe->args[0], ": command not found\n");
-	if (cmd && cmd[j] && ft_strcmp(cmd[j], "/usr/local/bin/") != 0)
-		free (exe->args[0]);
 	exit (127);
 }
 

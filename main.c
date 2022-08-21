@@ -6,43 +6,11 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/20 04:38:18 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 04:17:58 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (i);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	*ft_lastcar(char *str, char c)
-{
-	int	lent;
-
-	lent = ft_strlen(str);
-	while (*str)
-		str++;
-	while (lent)
-	{
-		if (*str == c)
-		{
-			str++;
-			return (str);
-		}
-		lent--;
-		str--;
-	}
-	return (NULL);
-}
 
 void	handle_c(int sig)
 {
@@ -53,15 +21,6 @@ void	handle_c(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		g_exit_status = 1;
-	}
-}
-
-void	handle_d(int sig)
-{
-	if (sig == 11)
-	{
-		printf ("exit\n");
-		exit(0);
 	}
 }
 
@@ -107,7 +66,6 @@ void	execution(t_cmd *cmd, t_list **data, t_tool tools)
 	signal(SIGINT, handle_c);
 	if (access("/tmp/ ", F_OK) != -1)
 		unlink("/tmp/ ");
-	free_struct(cmd);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -130,17 +88,17 @@ int	main(int ac, char **av, char **envp)
 		if (buf == NULL)
 		{
 			printf ("exit\n");
-			exit(0);
+			exit(g_exit_status);
 		}
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
-		if (ifexit(cmd) || ifenv(cmd, &data))
-			;
+		if (ifexit(cmd)|| ifenv(cmd, &data))
+			 ;
 		else
 			execution (cmd, &data, tools);
 		free (buf);
-		// free_struct(cmd);
-		// system("leaks minishell");
+		free_struct(cmd);
+		system("leaks minishell");
 	}
 	return (0);
 }

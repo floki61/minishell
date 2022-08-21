@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:10:50 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/16 03:18:18 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 04:46:49 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	deletenode(t_list **head, char *name)
 	t_list	*temp;
 	t_list	*current;
 
-	if (strcmp((*head)->name, name) == 0)
+	if (ft_strcmp((*head)->name, name) == 0)
 	{
 		temp = *head;
 		*head = (*head)->next;
@@ -28,9 +28,11 @@ void	deletenode(t_list **head, char *name)
 		current = *head;
 		while (current->next != NULL)
 		{
-			if (strcmp(current->next->name, name) == 0)
+			if (ft_strcmp(current->next->name, name) == 0)
 			{
 				temp = current->next;
+				free(current->next->name);
+				free(current->next->value);
 				current->next = current->next->next;
 				free(temp);
 				break ;

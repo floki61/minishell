@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/20 04:34:25 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 01:15:30 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	withoutvalue(char *cmd, t_list	**data)
 			return (0);
 		tmp = tmp->next;
 	}
-	ft_lstadd_back(data, ft_lstnew(cmd, NULL, NULL));
+
+	ft_lstadd_back(data, ft_lstnew(ft_strdup(cmd), NULL, NULL));
 	return (0);
 }
 
@@ -45,8 +46,8 @@ int	withvalue(char *cmd, t_list **data)
 	if (existkey(cmd, op, data, c))
 		return (2);
 	value = skip_c(cmd, '=');
-	ft_lstadd_back(data, ft_lstnew(op[0], ++value, "="));
-	// free_tab(op, 0);
+	ft_lstadd_back(data, ft_lstnew(ft_strdup(op[0]), ft_strdup(++value), "="));
+	free_tab(op, 0);
 	return (2);
 }
 

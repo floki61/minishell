@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 19:30:48 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 23:26:55 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 04:22:38 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	exe_doc(char *buf, t_exec *exe, t_tool *tools, t_list **data)
 	end = ft_splito(tools->limiter, ' ');
 	while (1)
 	{
+		write(0, ">", 1);
 		ar = get_next_line(0);
 		if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 		{
