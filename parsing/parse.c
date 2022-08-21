@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/20 01:50:10 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:40:11 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,22 @@ int	get_token(char **ps, char **q)
 
 t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 {
-	t_exec		*exec;
 	int			i;
 	static int	memo;
 	t_cmd		*cmd;
 
 	i = 0;
 	quote.x = memo;
-	cmd = exelior(*ps);
-	exec = (t_exec *)cmd;
-	while (!exist(ps, "|"))
+	if (ft_strlen(*ps) == 0)
 	{
-		cmd = parsered (cmd, ps, env, &quote);
-		if (cmd == 0)
-			return (0);
-		if (exec_args(&exec, i, ps) == 0)
-			break ;
-		exec->args[i] = if_dsigne(exec->args[i], env, &quote);
-		i++;
+		printf ("minishell: syntax error near unexpected token\n");
+		return (0);
 	}
-	if (exist(ps, "|"))
-		(quote.x)++;
-	if (i == 0 && ft_strlen(*ps) != 0)
+	cmd = parser(ps, env, &quote, &i);
+	if ((i == 0 && ft_strlen(*ps) != 0))
 	{
-		printf ("minishell: hhhh syntax error near unexpected token\n");
+		free_struct(cmd);
+		printf ("minishell: syntax error near unexpected token\n");
 		return (0);
 	}
 	memo = quote.x;
@@ -122,18 +114,12 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote *quote)
 		if (get_token(ps, &q) != 'F')
 		{
 			printf ("Error missing file\n");
+			free_struct(cmd);
 			return (0);
 		}
 		(quote->x)++;
 		clear = if_dsigne(clean(q), env, quote);
-		if (token == '<')
-			cmd = redirect(cmd, clear, O_RDONLY, 0);
-		else if (token == '>')
-			cmd = redirect(cmd, clear, O_WRONLY | O_CREAT | O_TRUNC, 1);
-		else if (token == '+')
-			cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1);
-		else if (token == '-')
-			cmd = redirect (cmd, clear, 3, 0);
+		cmd = which_redir(cmd, clear, token);
 		(quote->x)++;
 		cmd = parsered(cmd, ps, env, quote);
 	}

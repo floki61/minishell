@@ -6,48 +6,11 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/20 19:54:12 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 18:24:33 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*assigning(char *more, char *end, t_list **env, int *thief)
-{
-	int		i;
-	t_list	*tmp;
-	char	*dollar;
-	char	*garbage;
-
-	i = 0;
-	tmp = *env;
-	dollar = NULL;
-	garbage = ft_strjoin("?", end);
-	if (ft_strcmp(more, garbage) == 0)
-	{
-		dollar = ft_itoa(g_exit_status);
-		free (garbage);
-		(*thief) = 2;
-		return (dollar);
-	}
-	free (garbage);
-	while (tmp)
-	{
-		garbage = ft_strjoin(tmp->name, end);
-		if (ft_strcmp(more, garbage) == 0)
-		{
-			dollar = tmp->value;
-			end = NULL;
-			free (garbage);
-			break ;
-		}
-		tmp = tmp->next;
-		if (tmp == NULL)
-			(*thief) = 1;
-		free (garbage);
-	}
-	return (dollar);
-}
 
 static char	*edges(char *more, t_list **env)
 {
@@ -74,27 +37,12 @@ static char	*edges(char *more, t_list **env)
 	return (dollar);
 }
 
-static void	expand(char **assign, t_list **env, char *var)
+static void	compound(char **more, char **assign, t_list **env, int y)
 {
-	char	*dollar;
-	char	**more;
 	char	*garbage;
-	int		y;
+	char	*dollar;
 
-	y = 0;
 	garbage = NULL;
-	while (var[y])
-	{
-		if (var[y] == '$')
-			break ;
-		y++;
-	}
-	more = dq_undo(var);
-	if (y > 0)
-	{
-		(*assign) = ft_strjoin(NULL, more[0]);
-		y = 1;
-	}
 	while (more[y])
 	{
 		dollar = edges(more[y], env);
@@ -110,6 +58,32 @@ static void	expand(char **assign, t_list **env, char *var)
 		y++;
 	}
 	free_tab(more, 0);
+}
+
+static void	expand(char **assign, t_list **env, char *var)
+{
+	char	**more;
+	int		y;
+	char	*garbage;
+
+	garbage = NULL;
+	y = 0;
+	while (var[y])
+	{
+		if (var[y] == '$')
+			break ;
+		y++;
+	}
+	more = dq_undo(var);
+	if (y > 0)
+	{
+		garbage = ft_strjoin((*assign), more[0]);
+		if (ft_strlen(*assign) != 0)
+			free (*assign);
+		(*assign) = garbage;
+		y = 1;
+	}
+	compound(more, assign, env, y);
 }
 
 char	*if_dsigne(char *inpt, t_list **env, t_quote *quote)

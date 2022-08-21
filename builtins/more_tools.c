@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:48:41 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 23:23:24 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,16 @@ char	*skip_c(char *str, char c)
 	return (str);
 }
 
-// still 1 leaks
+char	*joinvalue(char	*key, t_list *tmp)
+{
+	char	*join2;
+
+	join2 = ft_strdup(key);
+	free (key);
+	key = ft_strjoin(tmp->value, join2);
+	free(join2);
+	return (key);
+}
 
 int	existkey(char *cmd, char **op, t_list **data, char c)
 {
@@ -37,7 +46,7 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 				tmp->sep = "=";
 			join = ft_strdup(++cmd);
 			if (c == '+')
-				join = ft_strjoin(tmp->value, join);
+				join = joinvalue(join, tmp);
 			free(tmp->value);
 			tmp->value = ft_strdup(join);
 			free(join);

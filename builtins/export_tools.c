@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 03:08:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:50:16 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 23:27:34 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,19 +96,16 @@ int	check_exp(char *str)
 		return (export_error(str, str2, 1));
 	str2 = ft_split(str, '=', 0);
 	pos = n_position(str2[0], '!');
-	if (pos == -1 && !str2[1])
-		return (export_error(str, str2, 1));
-	if (pos == 1)
+	if ((pos == -1 && !str2[1]) || pos == 1)
 		return (export_error(str, str2, 1));
 	else if (pos == 2)
-		return (export_error(skip_c(str, '!'), str2,  2));
+		return (export_error(skip_c(str, '!'), str2, 2));
 	if (!str2[1])
 	{
 		free_tab(str2, 0);
 		return (-1);
 	}
-	str = skip_c(str, '=');
-	if (v_position(str, '!'))
+	if (v_position(skip_c(str, '='), '!'))
 		return (export_error(skip_c(str, '!'), str2, 2));
 	free_tab(str2, 0);
 	return (0);

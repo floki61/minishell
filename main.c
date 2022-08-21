@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 04:17:58 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 23:28:26 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ void	handle_c(int sig)
 	}
 }
 
-void	handle_s(int sig)
+void	handle_exit(char *buf)
 {
-	if (sig == 3)
+	if (buf == NULL)
 	{
-		printf ("Quit: 3\n");
-		g_exit_status = 131;
-		exit (131);
+		printf ("exit\n");
+		exit(g_exit_status);
 	}
 }
 
@@ -59,6 +58,7 @@ void	execution(t_cmd *cmd, t_list **data, t_tool tools)
 		run_cmd(cmd, &tools, data);
 	}
 	signal(SIGINT, SIG_IGN);
+	free_struct(cmd);
 	waitpid(pid, &wait_status, 0);
 	g_exit_status = WEXITSTATUS(wait_status);
 	if (WIFSIGNALED(wait_status))
@@ -85,20 +85,14 @@ int	main(int ac, char **av, char **envp)
 		signal (SIGINT, handle_c);
 		signal (SIGQUIT, SIG_IGN);
 		buf = readline("-> minishell ");
-		if (buf == NULL)
-		{
-			printf ("exit\n");
-			exit(g_exit_status);
-		}
+		handle_exit(buf);
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
-		if (ifexit(cmd)|| ifenv(cmd, &data))
-			 ;
+		if (ifexit(cmd) || ifenv(cmd, &data))
+			free_struct(cmd);
 		else
 			execution (cmd, &data, tools);
 		free (buf);
-		free_struct(cmd);
-		system("leaks minishell");
 	}
 	return (0);
 }

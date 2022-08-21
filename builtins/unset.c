@@ -6,11 +6,22 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:10:50 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:46:49 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 23:02:16 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static	void	firstnode(t_list **head)
+{
+	t_list	*temp;
+
+	temp = *head;
+	free((*head)->name);
+	free((*head)->value);
+	*head = (*head)->next;
+	free(temp);
+}
 
 void	deletenode(t_list **head, char *name)
 {
@@ -18,11 +29,7 @@ void	deletenode(t_list **head, char *name)
 	t_list	*current;
 
 	if (ft_strcmp((*head)->name, name) == 0)
-	{
-		temp = *head;
-		*head = (*head)->next;
-		free(temp);
-	}
+		firstnode(head);
 	else
 	{
 		current = *head;

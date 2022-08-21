@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 23:44:48 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 18:30:42 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,54 @@ char	*after_world(char *str)
 		quote[len++] = str[i++];
 	quote[len] = '\0';
 	return (quote);
+}
+
+static char	*get_value(char *more, char *end, t_list **env, int *thief)
+{
+	char	*garbage;
+	char	*dollar;
+	t_list	*tmp;
+
+	tmp = *env;
+	garbage = NULL;
+	dollar = NULL;
+	while (tmp)
+	{
+		garbage = ft_strjoin(tmp->name, end);
+		if (ft_strcmp(more, garbage) == 0)
+		{
+			dollar = tmp->value;
+			end = NULL;
+			free (garbage);
+			break ;
+		}
+		tmp = tmp->next;
+		if (tmp == NULL)
+			(*thief) = 1;
+		free (garbage);
+	}
+	return (dollar);
+}
+
+char	*assigning(char *more, char *end, t_list **env, int *thief)
+{
+	int		i;
+	t_list	*tmp;
+	char	*dollar;
+	char	*garbage;
+
+	i = 0;
+	tmp = *env;
+	dollar = NULL;
+	garbage = ft_strjoin("?", end);
+	if (ft_strcmp(more, garbage) == 0)
+	{
+		dollar = ft_itoa(g_exit_status);
+		free (garbage);
+		(*thief) = 2;
+		return (dollar);
+	}
+	free (garbage);
+	dollar = get_value(more, end, env, thief);
+	return (dollar);
 }

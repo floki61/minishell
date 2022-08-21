@@ -6,21 +6,11 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:02:03 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/20 23:51:39 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 19:43:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	free_tab(char **path, int i)
-{
-	while (path[i])
-	{
-		free(path[i]);
-		i++;
-	}
-	free (path);
-}
 
 static int	measure(char *line, int i, int *count)
 {
