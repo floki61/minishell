@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 03:07:35 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:50:13 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 22:53:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	find_status(t_exec *exe)
 		if (exe->args[2])
 		{
 			printf("minishell: exit: too many arguments\n");
-			g_exit_status = 1;
+			g_global.exit = 1;
 		}
 		else
 			exit (fexit_status(exe->args[1]));

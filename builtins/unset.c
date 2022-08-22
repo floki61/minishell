@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:10:50 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 23:02:16 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:39:20 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ void	deletenode(t_list **head, char *name)
 int	ft_unset(char **cmd, t_list **data)
 {
 	int		i;
-	t_list	*tmp;
 
 	i = 1;
-	tmp = *data;
 	while (cmd[i])
 	{
 		deletenode(data, cmd[i]);

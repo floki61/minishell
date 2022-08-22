@@ -32,9 +32,7 @@ int	withvalue(char *cmd, t_list **data)
 	char	**op;
 	char	*value;
 	char	c;
-	t_list	*tmp;
 
-	tmp = *data;
 	op = ft_split(cmd, '=', 0);
 	c = '-';
 	if (op[0][ft_strlen(op[0]) - 1] == '+')

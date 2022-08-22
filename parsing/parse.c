@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 02:37:56 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:40:11 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 02:06:57 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,11 @@ t_cmd	*parseexec(char **ps, t_list **env, t_quote quote)
 
 	i = 0;
 	quote.x = memo;
-	if (ft_strlen(*ps) == 0)
-	{
-		printf ("minishell: syntax error near unexpected token\n");
-		return (0);
-	}
 	cmd = parser(ps, env, &quote, &i);
+	if (exist(ps, "|"))
+		quote.x++;
 	if ((i == 0 && ft_strlen(*ps) != 0))
-	{
-		free_struct(cmd);
-		printf ("minishell: syntax error near unexpected token\n");
-		return (0);
-	}
+		return (empty_pipe(cmd));
 	memo = quote.x;
 	if (ft_strlen(*ps) == 0)
 		memo = 0;
@@ -97,6 +90,12 @@ t_cmd	*parsepipe(char	*ps, t_list **env, t_quote quote)
 	if (exist(&ps, "|"))
 	{
 		get_token(&ps, 0);
+		if (ft_strlen(ps) == 0)
+		{
+			printf ("minishell: syntax error near unexpected token\n");
+			g_global.error = 258;
+			return (0);
+		}
 		cmd = piping(cmd, parsepipe(ps, env, quote));
 	}
 	return (cmd);
@@ -114,13 +113,13 @@ t_cmd	*parsered(t_cmd	*cmd, char **ps, t_list **env, t_quote *quote)
 		if (get_token(ps, &q) != 'F')
 		{
 			printf ("Error missing file\n");
+			g_global.error = 258;
 			free_struct(cmd);
 			return (0);
 		}
 		(quote->x)++;
 		clear = if_dsigne(clean(q), env, quote);
 		cmd = which_redir(cmd, clear, token);
-		(quote->x)++;
 		cmd = parsered(cmd, ps, env, quote);
 	}
 	return (cmd);

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:53:39 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/22 01:32:05 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:33:24 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,19 @@ char	*findkey(char *key, t_list **env)
 
 int	home(t_list **env, t_list *tmp)
 {
-	findkey("OLDPWD", &tmp);
-	free(tmp->value);
-	tmp->value = getcwd(NULL, 0);
+	char	*oldpwd;
+
+	oldpwd = getcwd(NULL, 0);
 	tmp = *env;
 	if (chdir(findkey("HOME", &tmp)) == -1)
 	{
 		fperror("cd", ": HOME not set\n");
 		return (1);
 	}
+	if (!findkey("OLDPWD", &tmp))
+		return (2);
+	free(tmp->value);
+	tmp->value = oldpwd;
 	return (2);
 }
 
@@ -54,9 +58,9 @@ int	oldpwd(char *oldpath, t_list *tmp)
 
 int	newpwd(char *fd, t_list *tmp)
 {
-	findkey("OLDPWD", &tmp);
-	free(tmp->value);
-	tmp->value = getcwd(NULL, 0);
+	char	*oldpwd;
+
+	oldpwd = getcwd(NULL, 0);
 	if (chdir(fd) < 0)
 	{
 		write(2, "minishell: ", 11);
@@ -65,6 +69,10 @@ int	newpwd(char *fd, t_list *tmp)
 		write(2, " No such file or directory\n", 27);
 		return (1);
 	}
+	if (!findkey("OLDPWD", &tmp))
+		return (2);
+	free(tmp->value);
+	tmp->value = oldpwd;
 	return (2);
 }
 

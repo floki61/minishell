@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 19:30:48 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:09:31 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/22 02:18:06 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,12 @@ static void	doc_nocmd(t_tool *tools)
 void	heredoc(t_redir *red, t_tool *tools)
 {
 	t_exec	*exe;
-	int		i;
 
-	i = 0;
 	red->file = ft_strjoin(red->file, " ");
 	tools->fd = open("/tmp/ ", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (tools->fd < 0)
 	{
-		printf ("Error\n");
+		printf ("Error in opening file descriptor\n");
 		exit(1);
 	}
 	dup2(tools->stdin_copy, 0);

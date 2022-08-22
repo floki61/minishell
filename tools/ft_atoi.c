@@ -26,12 +26,11 @@ static int	ftskip(char *str)
 	return (i);
 }
 
-static int	ft_signe(char	*str, int i, int a)
+static int	ft_signe(char *str, int i)
 {
 	unsigned long long	resultat;
 
 	resultat = 0;
-	a = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		resultat = resultat * 10 + (str[i] - '0');
@@ -57,9 +56,9 @@ int	ft_atoi(char *str)
 			a *= -1;
 		i++;
 	}
-	if (ft_signe(str, i, a) == -1)
+	if (ft_signe(str, i) == -1)
 		return (-1);
 	else
-		resultat = ft_signe(str, i, a) * a;
+		resultat = ft_signe(str, i) * a;
 	return (resultat);
 }

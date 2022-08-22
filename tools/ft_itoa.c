@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 05:22:46 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/16 03:32:53 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:58:53 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*ft_strdup(const char *src)
 	i = 0;
 	j = 0;
 	p = NULL;
+	if (!src)
+		return (NULL);
 	while (src[i])
 		i++;
 	p = malloc((i + 1) * sizeof(char));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/22 01:31:55 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 02:10:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,6 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 	return (0);
 }
 
-void	fperror(char *arg, char *error)
-{
-	write(2, "minishell: ", 11);
-	write(2, arg, ft_strlen(arg));
-	write(2, error, ft_strlen(error));
-}
-
 int	foldername(char **inpt)
 {
 	int	i;
@@ -84,4 +77,14 @@ int	foldername(char **inpt)
 		i++;
 	}
 	return (0);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
 }

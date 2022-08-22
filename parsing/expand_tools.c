@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 18:24:33 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:53:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote *quote)
 	assign = "";
 	var = cashier(inpt);
 	if (ft_strlen(*var) == 0)
-		g_exit_status = 7;
+		g_global.exit = 7;
 	while (var[j])
 	{
 		if (quote->quote[(quote->x)] != 2)

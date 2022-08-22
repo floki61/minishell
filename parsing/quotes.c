@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 13:44:37 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:56:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	double_quotes(char *str, int *i)
 	if (str[(*i)] == '\0')
 	{
 		printf ("minishell: quotation error\n");
+		g_global.error = 1;
 		return (0);
 	}
 	str[(*i)] = 1;
@@ -37,6 +38,7 @@ static int	single_quotes(char *str, int *i)
 	if (str[(*i)] == '\0')
 	{
 		printf ("minishell: quotation error\n");
+		g_global.error = 1;
 		return (0);
 	}
 	str[(*i)] = 1;
