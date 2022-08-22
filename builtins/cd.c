@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:53:39 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:32:35 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:32:05 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	home(t_list **env, t_list *tmp)
 
 int	oldpwd(char *oldpath, t_list *tmp)
 {
-	oldpath = findkey("OLDPWD", &tmp);
+	oldpath = ft_strdup(findkey("OLDPWD", &tmp));
 	if (!oldpath)
 	{
 		fperror("cd", ": OLDPWD not set\n");
@@ -60,6 +60,7 @@ int	newpwd(char *fd, t_list *tmp)
 	if (chdir(fd) < 0)
 	{
 		write(2, "minishell: ", 11);
+		write(2, "cd: ", 4);
 		write(2, fd, ft_strlen(fd));
 		write(2, " No such file or directory\n", 27);
 		return (1);
@@ -76,6 +77,8 @@ int	ft_cd(char **inpt, t_list **env)
 	tmp = *env;
 	if (!inpt[1])
 		return (home(env, tmp));
+	if (foldername(inpt))
+		return (2);
 	if (!ft_strcmp(inpt[1], "-"))
 		return (oldpwd(oldpath, tmp));
 	return (newpwd(inpt[1], tmp));

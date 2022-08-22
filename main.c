@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 23:28:26 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:22:47 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		signal (SIGINT, handle_c);
 		signal (SIGQUIT, SIG_IGN);
-		buf = readline("-> minishell ");
+		buf = readline("minishell-$ ");
 		handle_exit(buf);
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
