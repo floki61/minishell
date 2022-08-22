@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:53 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 04:17:58 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 01:45:47 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,16 @@ void	handle_c(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_exit_status = 1;
+		g_global.exit = 1;
 	}
 }
 
-void	handle_s(int sig)
+void	handle_exit(char *buf)
 {
-	if (sig == 3)
+	if (buf == NULL)
 	{
-		printf ("Quit: 3\n");
-		g_exit_status = 131;
-		exit (131);
+		printf ("exit\n");
+		exit (g_global.exit);
 	}
 }
 
@@ -59,10 +58,17 @@ void	execution(t_cmd *cmd, t_list **data, t_tool tools)
 		run_cmd(cmd, &tools, data);
 	}
 	signal(SIGINT, SIG_IGN);
+	free_struct(cmd);
 	waitpid(pid, &wait_status, 0);
-	g_exit_status = WEXITSTATUS(wait_status);
-	if (WIFSIGNALED(wait_status))
-		g_exit_status = WTERMSIG(wait_status) + 128;
+	if (g_global.error == 258 || g_global.error == 1)
+	{
+		g_global.exit = g_global.error;
+		g_global.error = 0;
+	}
+	else if (WIFSIGNALED(wait_status))
+		g_global.exit = WTERMSIG(wait_status) + 128;
+	else
+		g_global.exit = WEXITSTATUS(wait_status);
 	signal(SIGINT, handle_c);
 	if (access("/tmp/ ", F_OK) != -1)
 		unlink("/tmp/ ");
@@ -84,21 +90,15 @@ int	main(int ac, char **av, char **envp)
 	{
 		signal (SIGINT, handle_c);
 		signal (SIGQUIT, SIG_IGN);
-		buf = readline("-> minishell ");
-		if (buf == NULL)
-		{
-			printf ("exit\n");
-			exit(g_exit_status);
-		}
+		buf = readline("minishell-$ ");
+		handle_exit(buf);
 		add_history(buf);
 		cmd = parsecmd(buf, &data);
-		if (ifexit(cmd)|| ifenv(cmd, &data))
-			 ;
+		if (ifexit(cmd) || ifenv(cmd, &data))
+			free_struct(cmd);
 		else
 			execution (cmd, &data, tools);
 		free (buf);
-		free_struct(cmd);
-		system("leaks minishell");
 	}
 	return (0);
 }

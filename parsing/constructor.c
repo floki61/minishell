@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/20 23:50:46 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 22:53:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,7 @@ static int	free_exe(t_cmd *cmd)
 
 	i = 0;
 	exe = (t_exec *)cmd;
-	if (exe->args[0] == 0)
-	{
-		free (exe->args);
-		free (exe);
-		return (1);
-	}
-	if (g_exit_status == 7)
+	if (g_global.exit == 7)
 		i++;
 	free_tab(exe->args, i);
 	free (exe);
@@ -84,10 +78,7 @@ void	free_struct(t_cmd *cmd)
 	if (cmd == 0)
 		return ;
 	if (cmd->type == EXEC)
-	{
-		if (free_exe(cmd) == 1)
-			return ;
-	}
+		free_exe(cmd);
 	else if (cmd->type == PIPE)
 	{
 		pip = (t_pipe *)cmd;

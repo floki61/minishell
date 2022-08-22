@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 18:54:07 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 04:50:31 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 17:23:44 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*get_cmd(t_exec *exe, char *path)
 		if (ft_strcmp(cmd[j], "/usr/local/bin/") == 0)
 		{
 			fperror(exe->args[0], ": command not found\n");
-			exit (127) ;
+			exit (127);
 		}
 		if (access(cmd[j], F_OK | X_OK) != -1)
 			return (cmd[j]);

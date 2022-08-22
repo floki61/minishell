@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:42 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/19 00:11:31 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/21 19:39:06 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,17 @@ int	ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+t_cmd	*which_redir(t_cmd *cmd, char *clear, int token)
+{
+	if (token == '<')
+		cmd = redirect(cmd, clear, O_RDONLY, 0);
+	else if (token == '>')
+		cmd = redirect(cmd, clear, O_WRONLY | O_CREAT | O_TRUNC, 1);
+	else if (token == '+')
+		cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1);
+	else if (token == '-')
+		cmd = redirect (cmd, clear, 3, 0);
+	return (cmd);
 }

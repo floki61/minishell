@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   branch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 17:02:59 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 04:50:27 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 02:17:11 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	right_pipe(t_pipe *pip, t_tool *tools, t_list **data, int *p)
 {
-	if (pip->left->type == REDIR)
-		wait(0);
+	//if (pip->left->type == REDIR)
+	wait(0);
 	dup2(p[0], STDIN_FILENO);
 	close(p[0]);
 	close(p[1]);
@@ -27,6 +27,9 @@ static void	right_pipe(t_pipe *pip, t_tool *tools, t_list **data, int *p)
 void	type_pipe(t_cmd *cmd, t_tool *tools, t_list **data)
 {
 	int		p[2];
+	int		wait_status;
+	int		pid1;
+	int		pid2;
 	t_pipe	*pip;
 
 	pip = (t_pipe *)cmd;
@@ -35,7 +38,8 @@ void	type_pipe(t_cmd *cmd, t_tool *tools, t_list **data)
 		printf ("An error occured in the pipe function\n");
 		exit (1);
 	}
-	if (fork() == 0)
+	pid1 = fork();
+	if (pid1 == 0)
 	{
 		dup2(p[1], STDOUT_FILENO);
 		close(p[0]);
@@ -44,9 +48,15 @@ void	type_pipe(t_cmd *cmd, t_tool *tools, t_list **data)
 		if (pip->left->type == EXEC)
 			exit (1);
 	}
-	else
+	pid2 = fork();
+	if (pid2 == 0)
 		right_pipe(pip, tools, data, p);
-	wait(0);
+	close (p[0]);
+	close (p[1]);
+	waitpid(pid1, &wait_status, 0);
+	waitpid(pid2, &wait_status, 0);
+	g_global.exit = WEXITSTATUS(wait_status);
+	exit (g_global.exit);
 }
 
 void	type_exec(t_cmd *cmd, t_tool *tools, t_list **data)
@@ -103,7 +113,7 @@ void	type_redir(t_cmd *cmd, t_tool *tools, t_list **data)
 			tools->fd = should_open(red);
 			if (tools->fd == -1)
 			{
-				printf ("Errooor\n");
+				fperror (NULL, "Error in opening file descriptor\n");
 				exit (1);
 			}
 		}

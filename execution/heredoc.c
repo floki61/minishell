@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 19:30:48 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 04:22:38 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 02:18:06 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	doc_nocmd(t_tool *tools)
 
 	i = 0;
 	end = ft_splito(tools->limiter, ' ');
-	i = 0;
 	while (1)
 	{
+		write(2, "> ", 2);
 		ar = get_next_line(0);
 		if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 		{
@@ -44,14 +44,12 @@ static void	doc_nocmd(t_tool *tools)
 void	heredoc(t_redir *red, t_tool *tools)
 {
 	t_exec	*exe;
-	int		i;
 
-	i = 0;
 	red->file = ft_strjoin(red->file, " ");
 	tools->fd = open("/tmp/ ", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (tools->fd < 0)
 	{
-		printf ("Error\n");
+		printf ("Error in opening file descriptor\n");
 		exit(1);
 	}
 	dup2(tools->stdin_copy, 0);
@@ -64,6 +62,17 @@ void	heredoc(t_redir *red, t_tool *tools)
 	}
 }
 
+static void	exec_part(char *buf, t_exec *exe, t_tool *tools, t_list **data)
+{
+	close(tools->fd);
+	tools->fd = open("/tmp/ ", O_RDONLY, 0644);
+	dup2(tools->fd, STDIN_FILENO);
+	buf = get_path(exe, data);
+	if (buf == NULL)
+		exit (127);
+	execve(buf, exe->args, tools->envp);
+}
+
 void	exe_doc(char *buf, t_exec *exe, t_tool *tools, t_list **data)
 {
 	char	**end;
@@ -74,7 +83,7 @@ void	exe_doc(char *buf, t_exec *exe, t_tool *tools, t_list **data)
 	end = ft_splito(tools->limiter, ' ');
 	while (1)
 	{
-		write(0, ">", 1);
+		write(2, "> ", 2);
 		ar = get_next_line(0);
 		if (ft_strcmp(ft_strjoin(end[i], "\n"), ar) == 0)
 		{
@@ -83,13 +92,7 @@ void	exe_doc(char *buf, t_exec *exe, t_tool *tools, t_list **data)
 			{
 				free (ar);
 				free_tab(end, 0);
-				close(tools->fd);
-				tools->fd = open("/tmp/ ", O_RDONLY, 0644);
-				dup2(tools->fd, STDIN_FILENO);
-				buf = get_path(exe, data);
-				if (buf == NULL)
-					exit (127);
-				execve(buf, exe->args, tools->envp);
+				exec_part(buf, exe, tools, data);
 			}
 		}
 		else

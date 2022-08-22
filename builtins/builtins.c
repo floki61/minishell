@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 01:19:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 04:50:02 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/21 22:53:27 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ int	ft_pwd(char **inpt)
 {
 	char	*cwd;
 	int		i;
-	int		n;
 
 	cwd = NULL;
 	i = 1;
-	n = 0;
 	while (inpt[i])
 	{
 		if (v_position(inpt[i], '!') == 2)
@@ -91,9 +89,9 @@ int	ifenv(t_cmd *cmd, t_list **data)
 	if (bult)
 	{
 		if (bult == 2)
-			g_exit_status = 0;
+			g_global.exit = 0;
 		else
-			g_exit_status = bult;
+			g_global.exit = bult;
 		return (bult);
 	}
 	return (0);

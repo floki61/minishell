@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 04:48:41 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/22 02:10:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,16 @@ char	*skip_c(char *str, char c)
 	return (str);
 }
 
-// still 1 leaks
+char	*joinvalue(char	*key, t_list *tmp)
+{
+	char	*join2;
+
+	join2 = ft_strdup(key);
+	free (key);
+	key = ft_strjoin(tmp->value, join2);
+	free(join2);
+	return (key);
+}
 
 int	existkey(char *cmd, char **op, t_list **data, char c)
 {
@@ -37,7 +46,7 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 				tmp->sep = "=";
 			join = ft_strdup(++cmd);
 			if (c == '+')
-				join = ft_strjoin(tmp->value, join);
+				join = joinvalue(join, tmp);
 			free(tmp->value);
 			tmp->value = ft_strdup(join);
 			free(join);
@@ -49,9 +58,33 @@ int	existkey(char *cmd, char **op, t_list **data, char c)
 	return (0);
 }
 
-void	fperror(char *arg, char *error)
+int	foldername(char **inpt)
 {
-	write(2, "minishell: ", 11);
-	write(2, arg, ft_strlen(arg));
-	write(2, error, ft_strlen(error));
+	int	i;
+	int	n;
+
+	i = 1;
+	n = 0;
+	while (inpt[i])
+	{
+		if (v_position(inpt[i], '!') == 2)
+		{
+			while (inpt[i][n] != '!')
+				n++;
+			fperror(&inpt[i][n], ":event not found\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
 }
