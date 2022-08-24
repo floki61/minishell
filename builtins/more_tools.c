@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/22 02:10:52 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/24 23:09:53 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,14 @@ int	foldername(char **inpt)
 	return (0);
 }
 
-int	ft_strcmp(char *s1, char *s2)
+void	setpwd(t_list	*env)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
+	if (!findkey("PWD", &env) && !env)
+		return ;
+	if (ft_strcmp(env->name, "PWD"))
+		return ;
+	if (!env->sep)
+		env->sep = "=";
+	free(env->value);
+	env->value = getcwd(NULL, 0);
 }

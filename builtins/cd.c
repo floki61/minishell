@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:53:39 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/22 22:33:24 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/24 23:09:57 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,43 +23,59 @@ char	*findkey(char *key, t_list **env)
 	return (NULL);
 }
 
-int	home(t_list **env, t_list *tmp)
+int	home(t_list	**env)
 {
+	t_list	*tmp;
 	char	*oldpwd;
 
-	oldpwd = getcwd(NULL, 0);
 	tmp = *env;
+	oldpwd = getcwd(NULL, 0);
 	if (chdir(findkey("HOME", &tmp)) == -1)
 	{
 		fperror("cd", ": HOME not set\n");
 		return (1);
 	}
-	if (!findkey("OLDPWD", &tmp))
+	setpwd(*env);
+	tmp = *env;
+	if (!findkey("OLDPWD", &tmp) && !tmp)
 		return (2);
+	if (ft_strcmp(tmp->name, "OLDPWD"))
+		return (2);
+	if (!tmp->sep)
+		tmp->sep = "=";
 	free(tmp->value);
 	tmp->value = oldpwd;
 	return (2);
 }
 
-int	oldpwd(char *oldpath, t_list *tmp)
+int	oldpwd(t_list **env)
 {
-	oldpath = ft_strdup(findkey("OLDPWD", &tmp));
-	if (!oldpath)
+	t_list	*tmp;
+	char	*oldpwd;
+
+	tmp = *env;
+	oldpwd = ft_strdup(findkey("OLDPWD", &tmp));
+	if (!oldpwd)
 	{
 		fperror("cd", ": OLDPWD not set\n");
 		return (1);
 	}
+	if (!tmp->sep)
+		tmp->sep = "=";
 	free(tmp->value);
 	tmp->value = getcwd(NULL, 0);
-	chdir (oldpath);
-	printf ("%s\n", oldpath);
+	chdir (oldpwd);
+	printf ("%s\n", oldpwd);
+	setpwd(*env);
 	return (2);
 }
 
-int	newpwd(char *fd, t_list *tmp)
+int	newpwd(char *fd, t_list **env)
 {
+	t_list	*tmp;
 	char	*oldpwd;
 
+	tmp = *env;
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(fd) < 0)
 	{
@@ -69,8 +85,13 @@ int	newpwd(char *fd, t_list *tmp)
 		write(2, " No such file or directory\n", 27);
 		return (1);
 	}
-	if (!findkey("OLDPWD", &tmp))
+	setpwd(*env);
+	if (!findkey("OLDPWD", &tmp) && !tmp)
 		return (2);
+	if (ft_strcmp(tmp->name, "OLDPWD"))
+		return (2);
+	if (!tmp->sep)
+		tmp->sep = "=";
 	free(tmp->value);
 	tmp->value = oldpwd;
 	return (2);
@@ -78,16 +99,11 @@ int	newpwd(char *fd, t_list *tmp)
 
 int	ft_cd(char **inpt, t_list **env)
 {
-	t_list	*tmp;
-	char	*oldpath;
-
-	oldpath = NULL;
-	tmp = *env;
 	if (!inpt[1])
-		return (home(env, tmp));
+		return (home(env));
 	if (foldername(inpt))
 		return (2);
 	if (!ft_strcmp(inpt[1], "-"))
-		return (oldpwd(oldpath, tmp));
-	return (newpwd(inpt[1], tmp));
+		return (oldpwd(env));
+	return (newpwd(inpt[1], env));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/22 02:07:34 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/24 23:10:12 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,5 +187,6 @@ t_cmd	*which_redir(t_cmd *cmd, char *clear, int token);
 t_cmd	*parser(char **ps, t_list **env, t_quote *quote, int *i);
 int		foldername(char **inpt);
 t_cmd	*empty_pipe(t_cmd *cmd);
+void	setpwd(t_list	*env);
 
 #endif

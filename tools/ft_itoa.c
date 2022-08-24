@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 05:22:46 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/22 01:58:53 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/24 23:09:42 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
+}
 
 static int	count(long int n)
 {
