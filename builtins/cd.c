@@ -6,11 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:53:39 by oel-berh          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2022/08/24 23:09:57 by oel-berh         ###   ########.fr       */
-=======
-/*   Updated: 2022/08/22 22:33:24 by oel-berh         ###   ########.fr       */
->>>>>>> 86f4984491b53e8766f1bf0a0be9407e23a78198
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +25,9 @@ char	*findkey(char *key, t_list **env)
 
 int	home(t_list	**env)
 {
-<<<<<<< HEAD
 	t_list	*tmp;
 	char	*oldpwd;
 
-=======
-	char	*oldpwd;
-
-	oldpwd = getcwd(NULL, 0);
->>>>>>> 86f4984491b53e8766f1bf0a0be9407e23a78198
 	tmp = *env;
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(findkey("HOME", &tmp)) == -1)
@@ -45,7 +35,6 @@ int	home(t_list	**env)
 		fperror("cd", ": HOME not set\n");
 		return (1);
 	}
-<<<<<<< HEAD
 	setpwd(*env);
 	tmp = *env;
 	if (!findkey("OLDPWD", &tmp) && !tmp)
@@ -54,10 +43,6 @@ int	home(t_list	**env)
 		return (2);
 	if (!tmp->sep)
 		tmp->sep = "=";
-=======
-	if (!findkey("OLDPWD", &tmp))
-		return (2);
->>>>>>> 86f4984491b53e8766f1bf0a0be9407e23a78198
 	free(tmp->value);
 	tmp->value = oldpwd;
 	return (2);
@@ -87,15 +72,10 @@ int	oldpwd(t_list **env)
 
 int	newpwd(char *fd, t_list **env)
 {
-<<<<<<< HEAD
 	t_list	*tmp;
 	char	*oldpwd;
 
 	tmp = *env;
-=======
-	char	*oldpwd;
-
->>>>>>> 86f4984491b53e8766f1bf0a0be9407e23a78198
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(fd) < 0)
 	{
@@ -105,7 +85,6 @@ int	newpwd(char *fd, t_list **env)
 		write(2, " No such file or directory\n", 27);
 		return (1);
 	}
-<<<<<<< HEAD
 	setpwd(*env);
 	if (!findkey("OLDPWD", &tmp) && !tmp)
 		return (2);
@@ -113,10 +92,6 @@ int	newpwd(char *fd, t_list **env)
 		return (2);
 	if (!tmp->sep)
 		tmp->sep = "=";
-=======
-	if (!findkey("OLDPWD", &tmp))
-		return (2);
->>>>>>> 86f4984491b53e8766f1bf0a0be9407e23a78198
 	free(tmp->value);
 	tmp->value = oldpwd;
 	return (2);

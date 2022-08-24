@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2022/08/24 23:09:53 by oel-berh         ###   ########.fr       */
-=======
-/*   Updated: 2022/08/22 02:10:52 by sfarhan          ###   ########.fr       */
->>>>>>> 86f4984491b53e8766f1bf0a0be9407e23a78198
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +79,6 @@ int	foldername(char **inpt)
 	return (0);
 }
 
-<<<<<<< HEAD
 void	setpwd(t_list	*env)
 {
 	if (!findkey("PWD", &env) && !env)
@@ -95,14 +90,3 @@ void	setpwd(t_list	*env)
 	free(env->value);
 	env->value = getcwd(NULL, 0);
 }
-=======
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
-}
->>>>>>> 86f4984491b53e8766f1bf0a0be9407e23a78198
