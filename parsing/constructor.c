@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 12:36:30 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:53:27 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/30 08:25:05 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static int	free_exe(t_cmd *cmd)
 
 	i = 0;
 	exe = (t_exec *)cmd;
-	if (g_global.exit == 7)
-		i++;
 	free_tab(exe->args, i);
 	free (exe);
 	return (0);

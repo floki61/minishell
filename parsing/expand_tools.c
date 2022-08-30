@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 16:44:01 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:53:27 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/30 08:25:12 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*edges(char *more, t_list **env)
 		dollar = garbage;
 	}
 	else if (thief == 1)
-		dollar = "";
+		dollar = NULL;
 	free (end);
 	return (dollar);
 }
@@ -95,8 +95,6 @@ char	*if_dsigne(char *inpt, t_list **env, t_quote *quote)
 	j = 0;
 	assign = "";
 	var = cashier(inpt);
-	if (ft_strlen(*var) == 0)
-		g_global.exit = 7;
 	while (var[j])
 	{
 		if (quote->quote[(quote->x)] != 2)

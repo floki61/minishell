@@ -15,6 +15,7 @@ SRCS =	main.c \
 		execution/branch.c \
 		execution/execute.c \
 		execution/heredoc.c \
+		execution/pipes.c \
 		parsing/constructor.c \
 		parsing/correction.c \
 		parsing/errors.c \

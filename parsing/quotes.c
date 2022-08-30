@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 13:44:37 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 22:56:52 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/30 08:25:39 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ char	*quotes(char *str, t_quote *quote)
 			quote->quote[x] = double_quotes(str, &i);
 		else if (str[i] == 39)
 			quote->quote[x] = single_quotes(str, &i);
-		if (quote->quote[x] == 0)
-			return (NULL);
 		i++;
 		next_quote(str, &i, &x, tmp);
 	}

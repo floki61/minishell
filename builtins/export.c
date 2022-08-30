@@ -6,7 +6,7 @@
 /*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:00:44 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/21 17:23:56 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/24 00:11:52 by sfarhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	withvalue(char *cmd, t_list **data)
 	char	*value;
 	char	c;
 
-	op = ft_split(cmd, '=', 0);
+	op = ft_splito(cmd, '=');
 	c = '-';
 	if (op[0][ft_strlen(op[0]) - 1] == '+')
 	{

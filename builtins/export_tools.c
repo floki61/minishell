@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 03:08:59 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/22 01:38:06 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/30 08:24:35 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	check_exp(char *str)
 		return (2);
 	else if (str[0] == '=')
 		return (export_error(str, str2, 1));
-	str2 = ft_split(str, '=', 0);
+	str2 = ft_splito(str, '=');
 	pos = n_position(str2[0], '!');
 	if ((pos == -1 && !str2[1]) || pos == 1)
 		return (export_error(str, str2, 1));

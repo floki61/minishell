@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:49 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/18 21:01:18 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/30 08:25:51 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static char	*copy(int t, char const *s, char c)
 
 	j = 0;
 	len = ft_test(s, t, c, 1);
-	str = (char *)malloc(sizeof (char) * len + 1);
+	str = (char *)malloc(sizeof (char) * (len + 1));
 	if (!str)
 		return (NULL);
 	while (j < len)

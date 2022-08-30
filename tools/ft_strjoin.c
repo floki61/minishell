@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:42 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/21 19:39:06 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/30 08:25:55 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-t_cmd	*which_redir(t_cmd *cmd, char *clear, int token)
+t_cmd	*which_redir(t_cmd *cmd, char *clear, int token, char *q)
 {
 	if (token == '<')
 		cmd = redirect(cmd, clear, O_RDONLY, 0);
@@ -93,6 +93,9 @@ t_cmd	*which_redir(t_cmd *cmd, char *clear, int token)
 	else if (token == '+')
 		cmd = redirect (cmd, clear, O_WRONLY | O_CREAT | O_APPEND, 1);
 	else if (token == '-')
-		cmd = redirect (cmd, clear, 3, 0);
+	{
+		free (clear);
+		cmd = redirect (cmd, clean(q), 3, 0);
+	}
 	return (cmd);
 }

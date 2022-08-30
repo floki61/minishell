@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfarhan <sfarhan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 19:01:44 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/22 02:11:02 by sfarhan          ###   ########.fr       */
+/*   Updated: 2022/08/30 08:25:10 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	free_tab(char **path, int i)
 {
 	while (path[i])
 	{
-		free(path[i]);
+		if (ft_strlen(path[i]) != 0)
+			free(path[i]);
 		i++;
 	}
 	free (path);

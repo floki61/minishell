@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:22:19 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/24 23:09:53 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/30 08:24:43 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	foldername(char **inpt)
 	return (0);
 }
 
-void	setpwd(t_list	*env)
+void	setpwd(t_list *env)
 {
 	if (!findkey("PWD", &env) && !env)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 02:53:39 by oel-berh          #+#    #+#             */
-/*   Updated: 2022/08/24 23:09:57 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/30 08:24:27 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	oldpwd(t_list **env)
 	chdir (oldpwd);
 	printf ("%s\n", oldpwd);
 	setpwd(*env);
+	free (oldpwd);
 	return (2);
 }
 
@@ -79,15 +80,16 @@ int	newpwd(char *fd, t_list **env)
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(fd) < 0)
 	{
-		write(2, "minishell: ", 11);
-		write(2, "cd: ", 4);
-		write(2, fd, ft_strlen(fd));
-		write(2, " No such file or directory\n", 27);
+		free (oldpwd);
+		fperror(fd, ": No such file or directory\n");
 		return (1);
 	}
 	setpwd(*env);
 	if (!findkey("OLDPWD", &tmp) && !tmp)
+	{
+		free (oldpwd);
 		return (2);
+	}
 	if (ft_strcmp(tmp->name, "OLDPWD"))
 		return (2);
 	if (!tmp->sep)

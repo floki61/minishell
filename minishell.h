@@ -6,7 +6,7 @@
 /*   By: oel-berh <oel-berh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 23:01:57 by sfarhan           #+#    #+#             */
-/*   Updated: 2022/08/24 23:10:12 by oel-berh         ###   ########.fr       */
+/*   Updated: 2022/08/30 08:26:15 by oel-berh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,10 +183,10 @@ char	*ft_itoa(int n);
 char	*findkey(char *key, t_list **env);
 int		ft_pwd(char **inpt);
 char	*ft_strdup(const char *src);
-t_cmd	*which_redir(t_cmd *cmd, char *clear, int token);
+t_cmd	*which_redir(t_cmd *cmd, char *clear, int token, char *q);
 t_cmd	*parser(char **ps, t_list **env, t_quote *quote, int *i);
 int		foldername(char **inpt);
 t_cmd	*empty_pipe(t_cmd *cmd);
-void	setpwd(t_list	*env);
+void	setpwd(t_list *env);
 
 #endif
